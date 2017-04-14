@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AppController } from "./controllers/app-controller";
+import { Podcast } from "./models/podcast";
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
+  appController: AppController;
+  currentPodcast: Podcast;
+  constructor(){
+    this.appController = new AppController();
+  }
+
+  setRandomCurrentPodcast() {
+    this.appController.setRandomCurrentPodcast();
+  }
 }
