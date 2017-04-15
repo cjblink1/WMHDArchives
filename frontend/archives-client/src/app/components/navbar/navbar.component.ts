@@ -1,6 +1,6 @@
-import { Component, OnInit, Output, Input, EventEmitter, NgZone } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter, NgZone, ElementRef } from '@angular/core';
 import { Podcast } from "../../models/podcast";
-import { SignInController } from "../../controllers/sign-in-controller";
+import { User } from "../../models/user";
 
 @Component({
   selector: 'app-navbar',
@@ -11,10 +11,9 @@ export class NavbarComponent implements OnInit {
 
   @Input() currentPodcast: Podcast;
   @Output() onCurrentPodcastClick = new EventEmitter();
-  signInController: SignInController;
+  user: User;
 
-  constructor(private zone: NgZone) { 
-    this.signInController = SignInController.getInstance(zone);
+  constructor() { 
   }
 
   ngOnInit() {
@@ -23,6 +22,13 @@ export class NavbarComponent implements OnInit {
   currentPodcastClick() {
     this.onCurrentPodcastClick.emit("Clicked podcast ${currentPodcast.name}");
     console.log(`Clicked podcast ${this.currentPodcast.name}`);
+  }
+
+
+
+  setUser(user: User){
+      this.user = user;
+      console.log(this.user);
   }
 
 }
