@@ -6,11 +6,13 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AuthService } from './services/auth.service';
+import { PodcastDeckComponent } from './components/podcast-deck/podcast-deck.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent
+    NavbarComponent,
+    PodcastDeckComponent
   ],
   imports: [
     BrowserModule,
