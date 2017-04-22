@@ -1,0 +1,50 @@
+<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a href="#" class="navbar-brand">WMHD Podcast Archives</a>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a href="#" class="nav-link">Podcasts</a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link">Genres</a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link">Creators</a>
+      </li>
+    </ul>
+    <a style="text-decoration: none" data-toggle="modal" data-target="#userModal" href="#">
+      <img [hidden]="!signedIn" [src]="user.profilePicURL" class="my-0 mr-sm-2 rounded-circle" style="height: 36px"/>
+      <span [hidden]="!signedIn" class="ml-sm-0 my-2 mr-sm-2" style="color: rgba(255,255,255,.5)">Welcome, {{user.firstName}}</span>
+    </a>
+    <div [hidden]="signedIn" class="mr-sm-0" id="my-signin2"></div>
+  </div>
+
+  <!--
+    Modal time
+    -->
+
+    <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">User Profile</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <img [src]="user.profilePicURL" class="rounded-circle"/>
+            <p>{{user.firstName}} {{user.lastName}}<br/>{{user.email}}
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="signOut()">Sign Out</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</nav>
