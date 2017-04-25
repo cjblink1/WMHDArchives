@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PodcastService } from '../../services/podcast.service';
+import { Podcast } from '../../models/podcast';
 
 @Component({
   selector: 'app-podcast-deck',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PodcastDeckComponent implements OnInit {
 
-  constructor() { }
+  private podcasts: Podcast[];
+
+  constructor(private podcastService: PodcastService) { }
 
   ngOnInit() {
+    this.podcasts = this.podcastService.getPodcasts();
   }
 
 }
