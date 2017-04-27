@@ -1,7 +1,7 @@
 var pg = require('pg');
 
 var config = {
-    user: 'node',
+    user: 'wukusil',
     database: 'test',
     password: '12345',
     host: 'archives.cjblink1.pro',
@@ -20,6 +20,7 @@ exports.execQuery = function (query, callback) {
 
         client.query(query, function (err, result) {
             if (err) {
+                console.log(JSON.stringify(err));
                 throw err;
             }
 
