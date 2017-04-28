@@ -10,5 +10,5 @@ export class Constants {
         signedIn: false
     }
 
-    static BASE_URL = "http://localhost:3000/api";
+    static BASE_URL = "http://archives.cjblink1.pro:3000/api";
 }
