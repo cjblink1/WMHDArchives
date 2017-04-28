@@ -6,20 +6,23 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AuthService } from './services/auth.service';
+import { PodcastService } from './services/podcast.service';
 import { PodcastDeckComponent } from './components/podcast-deck/podcast-deck.component';
+import { PodcastCardComponent } from './components/podcast-card/podcast-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    PodcastDeckComponent
+    PodcastDeckComponent,
+    PodcastCardComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, PodcastService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
