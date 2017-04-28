@@ -1,11 +1,11 @@
 var pg = require('pg');
 
 var config = {
-    user: 'wukusil',
-    database: 'test',
+    user: 'node',
+    database: 'WMHDatabase',
     password: '12345',
     host: 'archives.cjblink1.pro',
-    max: 10,
+    max: 30,
     idleTimeoutMillis: 60000
 };
 

@@ -19,7 +19,7 @@ router.post('/create/name/:name/description/:description', function (req, res){
     db.execQuery(inStr, function(Qres) {
         console.log('Created podcast');
         res.send(Qres);
-                 });
+    });
 });
 
 router.put('/update/id/:id/name/:name/description/:description', function (req, res){
