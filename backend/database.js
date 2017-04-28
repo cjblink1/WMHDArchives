@@ -11,14 +11,14 @@ var config = {
 
 var pool = new pg.Pool(config);
 
-exports.execQuery = function (query, callback) {
+exports.execQuery = function (query, params, callback) {
     console.log('Connecting to pool client');
     pool.connect(function (err, client, done) {
         if (err) {
             throw err;
         }
 
-        client.query(query, function (err, result) {
+        client.query(query, params, function (err, result) {
             if (err) {
                 console.log(JSON.stringify(err));
                 throw err;
