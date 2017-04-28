@@ -9,4 +9,6 @@ export class Constants {
         profilePicURL: 'https://pbs.twimg.com/profile_images/655814847213514752/PsV5ZqAA.jpg',
         signedIn: false
     }
+
+    static BASE_URL = "http://localhost:3000/api";
 }
