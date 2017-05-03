@@ -20,11 +20,10 @@ exports.execQuery = function (query, params, callback) {
 
         client.query(query, params, function (err, result) {
             if (err) {
-                console.log(JSON.stringify(err));
-                throw err;
+                console.log(err);
             }
 
-            callback(result);
+            callback(result, err);
 
             done(err);
         });
