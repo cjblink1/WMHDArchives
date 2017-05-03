@@ -2,7 +2,7 @@ var util = require('util');
 var express = require('express');
 var router = express.Router();
 var db = require('./database');
-var multer = require('multer'); // v1.0.5
+var multer = require('multer');
 var upload = multer(); // for parsing multipart/form-data
 
 router.get('/', function (req, res){
