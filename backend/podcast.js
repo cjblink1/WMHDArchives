@@ -2,46 +2,67 @@ var util = require('util');
 var express = require('express');
 var router = express.Router();
 var db = require('./database');
+var multer = require('multer');
+var upload = multer(); // for parsing multipart/form-data
 
 router.get('/', function (req, res){
     console.log('About to execute query');
-    db.execQuery('SELECT * FROM get_all_podcasts()', function(Qres){
+    db.execQuery('SELECT * FROM get_all_podcasts()', [], function(Qres, err){
         console.log('Executing all-podcasts query');
         res.send(JSON.stringify(Qres.rows));
     });
 });
 
-router.post('/create/name/:name/description/:description', function (req, res){
-    console.log('Podcast post request');
-    var inStr = util.format('SELECT create_podcast(new_name := \'%s\', new_description := \'%s\')',
-                            req.params.name, req.params.description);
+router.post('/', upload.array(), function (req, res){
+
+    var inStr = util.format('Podcast post request: SELECT create_podcast(new_name := \'%s\', new_description := \'%s\')',
+                            req.body.name, req.body.description);
     console.log(inStr);
-    db.execQuery(inStr, function(Qres) {
-        console.log('Created podcast');
-        res.send(Qres);
-    });
+
+    db.execQuery('SELECT create_podcast(new_name := $1, new_description := $2)',
+                 [req.body.name, req.body.description],
+                 function(Qres, err) {
+                     if (err) {
+                         res.send(err);
+                     } else {
+                         console.log('Created podcast');
+                         res.send(Qres);
+                     }
+                 });
 });
 
-router.put('/update/id/:id/name/:name/description/:description', function (req, res){
-    console.log('Podcast put request');
-    var inStr = util.format('SELECT update_podcast(p_id := %d, new_name := \'%s\', new_description := \'%s\')',
-                            req.params.id,req.params.name, req.params.description);
+router.put('/', upload.array(), function (req, res){
+    var inStr = util.format('Podcast put request: SELECT update_podcast(p_id := %d, new_name := \'%s\', new_description := \'%s\')',
+                            req.body.id,req.body.name, req.body.description);
     console.log(inStr);
-    db.execQuery(inStr, function(Qres) {
-        console.log('Updated podcast');
-        res.send(Qres);
-    });
+
+    db.execQuery('SELECT update_podcast(p_id := $1, new_name := $2, new_description := $3)',
+                 [req.body.id, req.body.name, req.body.description],
+                 function(Qres, err) {
+                     if (err) {
+                         res.send(err);
+                     } else {
+                         console.log('Updated podcast');
+                         res.send(Qres);
+                     }
+                 });
 });
 
-router.delete('/delete/id/:id/', function (req, res){
-    console.log('Podcast delete request');
-    var inStr = util.format('SELECT delete_podcast(p_id := %d)',
-                            req.params.id);
+router.delete('/', upload.array(), function (req, res){
+    var inStr = util.format('Podcast delete request, SELECT delete_podcast(p_id := %d)',
+                            req.body.id);
     console.log(inStr);
-    db.execQuery(inStr, function(Qres) {
-        console.log('Deleted podcast');
-        res.send(Qres);
-    });
+
+    db.execQuery('SELECT delete_podcast(p_id := $1)',
+                 [req.body.id],
+                 function(Qres, err) {
+                     if (err) {
+                         res.send(err);
+                     } else {
+                         console.log('Deleted podcast');
+                         res.send(Qres);
+                     }
+                 });
 });
 
 module.exports = router;
