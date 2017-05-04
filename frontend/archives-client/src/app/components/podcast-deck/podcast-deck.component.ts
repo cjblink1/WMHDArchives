@@ -14,7 +14,13 @@ export class PodcastDeckComponent implements OnInit {
   constructor(private podcastService: PodcastService) { }
 
   ngOnInit() {
-    this.podcasts = this.podcastService.getPodcasts();
+    this.getPodcasts();
+  }
+
+  private getPodcasts() {
+    this.podcastService.getPodcasts()
+                        .subscribe(podcasts => this.podcasts = podcasts,
+                                   error => console.log(error));
   }
 
 }
