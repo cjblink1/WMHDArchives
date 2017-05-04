@@ -9,13 +9,15 @@ import { AuthService } from './services/auth.service';
 import { PodcastService } from './services/podcast.service';
 import { PodcastDeckComponent } from './components/podcast-deck/podcast-deck.component';
 import { PodcastCardComponent } from './components/podcast-card/podcast-card.component';
+import { PodcastDetailComponent } from './components/podcast-detail/podcast-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     PodcastDeckComponent,
-    PodcastCardComponent
+    PodcastCardComponent,
+    PodcastDetailComponent
   ],
   imports: [
     BrowserModule,
