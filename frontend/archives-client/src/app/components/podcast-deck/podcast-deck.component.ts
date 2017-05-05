@@ -18,7 +18,7 @@ export class PodcastDeckComponent implements OnInit {
   }
 
   private getPodcasts() {
-    this.podcastService.getPodcasts()
+    this.podcastService.getAllPodcasts()
                         .subscribe(podcasts => this.podcasts = podcasts,
                                    error => console.log(error));
   }

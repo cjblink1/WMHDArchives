@@ -4,6 +4,7 @@ import 'rxjs/add/operator/switchMap';
 import { Podcast } from '../../models/podcast';
 import { Episode } from '../../models/episode';
 import { EpisodeService } from '../../services/episode.service';
+import { PodcastService } from '../../services/podcast.service';
 
 @Component({
   selector: 'app-podcast-detail',
@@ -18,14 +19,18 @@ export class PodcastDetailComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private episodeService: EpisodeService) { }
+              private episodeService: EpisodeService,
+              private podcastService: PodcastService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.podcast_id = params['id'];
       // Request podcast info
+      this.podcastService.getPodcast(this.podcast_id)
+                            .subscribe(podcast => this.podcast = podcast, 
+                                  error => console.log(error));
       // Request episodes
-      this.episodeService.getEpisodes()
+      this.episodeService.getEpisodesOfPodcast(this.podcast_id)
                             .subscribe(episodes => this.episodes = episodes,
                                 error => console.log(error));
     });

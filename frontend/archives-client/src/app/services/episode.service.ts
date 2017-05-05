@@ -13,8 +13,8 @@ export class EpisodeService {
 
   constructor(public http: Http) { }
 
-  public getEpisodes(): Observable<Episode[]> {
-    return this.http.get(Constants.BASE_URL+'/episode/')
+  public getEpisodesOfPodcast(id: number): Observable<Episode[]> {
+    return this.http.get(Constants.BASE_URL+'/episode/p_id/'+id)
           .map(this.extractData)
           .catch(this.handleError);
 
