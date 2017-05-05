@@ -76,7 +76,7 @@ router.get('/:id', function(req, res) {
                          res.send(err);
                      } else {
                          console.log('Got podcast', req.params.id);
-                         res.send(JSON.stringify(Qres.rows));
+                         res.send(JSON.stringify(Qres.rows[0]));
                      }
                  });
 });
