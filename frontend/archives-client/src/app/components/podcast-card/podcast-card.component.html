@@ -1,7 +1,8 @@
-<div class="card" id="podcast-card">
+<div (click)="onSelect()" class="card" id="podcast-card">
     <img class="card-img-top" style="width: 100%" src="https://yt3.ggpht.com/0v8T0CTAv8VPxA5lJtz-tqJe-tR-3VQc0ONhD6Az2RWjNRnwh5QQzPYz5I7wbYljU_tQjZ2ok2W59_v_=s900-nd-c-c0xffffffff-rj-k-no" alt="Card image cap">
     <div class="card-block">
       <h4 class="card-title">{{podcast.name}}</h4>
       <p class="card-text">{{podcast.description}}</p>
     </div>
 </div>
+
