@@ -14,7 +14,7 @@ import { PodcastService } from '../../services/podcast.service';
 export class PodcastDetailComponent implements OnInit {
 
   podcast_id: number;
-  podcast: Podcast;
+  podcast_name: string;
   episodes: Episode[];
 
   constructor(private route: ActivatedRoute,
@@ -27,7 +27,7 @@ export class PodcastDetailComponent implements OnInit {
       this.podcast_id = params['id'];
       // Request podcast info
       this.podcastService.getPodcast(this.podcast_id)
-                            .subscribe(podcast => this.podcast = podcast, 
+                            .subscribe(podcast => this.podcast_name = podcast.name, 
                                   error => console.log(error));
       // Request episodes
       this.episodeService.getEpisodesOfPodcast(this.podcast_id)
