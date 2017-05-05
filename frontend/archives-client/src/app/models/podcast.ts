@@ -1,11 +1,11 @@
 export class Podcast {
     
-    id: string;
+    podcast_id: number;
     name: string;
     description: string;
 
-    constructor(id, name, description){
-        this.id = id;
+    constructor(podcast_id, name, description){
+        this.podcast_id = podcast_id;
         this.name = name;
         this.description = description;
     }

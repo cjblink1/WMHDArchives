@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Podcast } from '../../models/podcast';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-podcast-card',
@@ -10,9 +11,13 @@ export class PodcastCardComponent implements OnInit {
 
   @Input() podcast: Podcast;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
+  }
+
+  onSelect() {
+    this.router.navigate(['/podcast', this.podcast.podcast_id]);
   }
 
 }

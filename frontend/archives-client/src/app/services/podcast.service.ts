@@ -14,10 +14,16 @@ export class PodcastService {
 
   constructor(private http: Http) { }
 
-  public getPodcasts(): Observable<Podcast[]> {
+  public getAllPodcasts(): Observable<Podcast[]> {
     return this.http.get(Constants.BASE_URL+'/podcast/')
           .map(this.extractData)
           .catch(this.handleError);
+  }
+
+  public getPodcast(id: number): Observable<Podcast> {
+    return this.http.get(Constants.BASE_URL+'/podcast/'+id)
+           .map(this.extractData)
+           .catch(this.handleError);
   }
 
   private extractData(res: Response) {
