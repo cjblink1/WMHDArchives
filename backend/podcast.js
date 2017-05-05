@@ -19,8 +19,8 @@ router.post('/', upload.array(), function (req, res){
                             req.body.name, req.body.description);
     console.log(inStr);
 
-    db.execQuery('SELECT create_podcast(new_name := $1, new_description := $2)',
-                 [req.body.name, req.body.description],
+    db.execQuery('SELECT create_podcast(new_name := $1, new_description := $2, auth := $3)',
+                 [req.body.name, req.body.description, req.body.auth],
                  function(Qres, err) {
                      if (err) {
                          res.send(err);
@@ -36,8 +36,8 @@ router.put('/', upload.array(), function (req, res){
                             req.body.id,req.body.name, req.body.description);
     console.log(inStr);
 
-    db.execQuery('SELECT update_podcast(p_id := $1, new_name := $2, new_description := $3)',
-                 [req.body.id, req.body.name, req.body.description],
+    db.execQuery('SELECT update_podcast(p_id := $1, new_name := $2, new_description := $3, auth := $4)',
+                 [req.body.id, req.body.name, req.body.description, req.body.auth],
                  function(Qres, err) {
                      if (err) {
                          res.send(err);
@@ -53,8 +53,8 @@ router.delete('/', upload.array(), function (req, res){
                             req.body.id);
     console.log(inStr);
 
-    db.execQuery('SELECT delete_podcast(p_id := $1)',
-                 [req.body.id],
+    db.execQuery('SELECT delete_podcast(p_id := $1, auth := $2)',
+                 [req.body.id, req.body.auth],
                  function(Qres, err) {
                      if (err) {
                          res.send(err);
