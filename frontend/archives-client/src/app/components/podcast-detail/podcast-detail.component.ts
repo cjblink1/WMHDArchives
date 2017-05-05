@@ -34,6 +34,13 @@ export class PodcastDetailComponent implements OnInit {
                             .subscribe(episodes => this.episodes = episodes,
                                 error => console.log(error));
     });
+
     
+
+    }
+
+  onEpisodeSelected(episode) {
+    console.log(episode.title);
+    this.episodeService.createNewEpisode();
   }
 }
