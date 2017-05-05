@@ -1,0 +1,19 @@
+<div class="row p-2">
+  <div class="btn-group">
+    <button class="btn btn-primary">Add Podcast</button>
+  </div>
+</div>
+<table class="table">
+  <thead>
+    <th>Name</th>
+    <th>Description</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let podcast of podcasts">
+      <td>{{podcast.name}}</td>
+      <td>{{podcast.description}}</td>
+      <td><button class="btn btn-primary">View Details</button></td>
+      <td><button class="btn btn-danger">Remove</button></td>
+    </tr>
+  </tbody>
+</table>

@@ -8,11 +8,8 @@
       <li class="nav-item active">
         <a href="" routerLink="/" class="nav-link">Podcasts</a>
       </li>
-      <li class="nav-item">
-        <a href="" class="nav-link">Genres</a>
-      </li>
-      <li class="nav-item">
-        <a href="" class="nav-link">Creators</a>
+      <li [hidden]="!signedIn" class="nav-item">
+        <a href="" routerLink="/manage" class="nav-link">Manage</a>
       </li>
     </ul>
     <a style="text-decoration: none" data-toggle="modal" data-target="#userModal" href="#">

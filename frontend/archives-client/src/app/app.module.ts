@@ -12,10 +12,23 @@ import { EpisodeService } from './services/episode.service';
 import { PodcastDeckComponent } from './components/podcast-deck/podcast-deck.component';
 import { PodcastCardComponent } from './components/podcast-card/podcast-card.component';
 import { PodcastDetailComponent } from './components/podcast-detail/podcast-detail.component';
+import { ManagementViewComponent } from './components/management-view/management-view.component';
+import { UserManagementComponent } from './components/user-management/user-management.component';
+import { PodcastManagementComponent } from './components/podcast-management/podcast-management.component';
+import { EpisodeManagementComponent } from './components/episode-management/episode-management.component';
 
 const appRoutes: Routes = [
   { path: '', component: PodcastDeckComponent },
-  { path: 'podcast/:id', component: PodcastDetailComponent }
+  { path: 'podcast/:id', component: PodcastDetailComponent },
+  { 
+    path: 'manage', 
+    component: ManagementViewComponent,
+    children: [
+      { path: 'users', component: UserManagementComponent },
+      { path: 'podcasts', component: PodcastManagementComponent },
+      { path: 'episodes', component: EpisodeManagementComponent }
+    ]
+ }
 ]
 
 @NgModule({
@@ -24,7 +37,11 @@ const appRoutes: Routes = [
     NavbarComponent,
     PodcastDeckComponent,
     PodcastCardComponent,
-    PodcastDetailComponent
+    PodcastDetailComponent,
+    ManagementViewComponent,
+    UserManagementComponent,
+    PodcastManagementComponent,
+    EpisodeManagementComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
