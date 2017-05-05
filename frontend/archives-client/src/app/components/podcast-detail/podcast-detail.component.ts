@@ -12,6 +12,7 @@ import { EpisodeService } from '../../services/episode.service';
 })
 export class PodcastDetailComponent implements OnInit {
 
+  podcast_id: number;
   podcast: Podcast;
   episodes: Episode[];
 
@@ -20,6 +21,14 @@ export class PodcastDetailComponent implements OnInit {
               private episodeService: EpisodeService) { }
 
   ngOnInit() {
-    this.episodes = this.episodeService.getStaticEpisodes();
+    this.route.params.subscribe(params => {
+      this.podcast_id = params['id'];
+      // Request podcast info
+      // Request episodes
+      this.episodeService.getEpisodes()
+                            .subscribe(episodes => this.episodes = episodes,
+                                error => console.log(error));
+    });
+    
   }
 }
