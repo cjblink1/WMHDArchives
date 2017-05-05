@@ -1,5 +1,7 @@
 var pg = require('pg');
 var podcast = require('./podcast');
+var episode = require('./episode');
+var user = require('./user');
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
@@ -12,6 +14,8 @@ var allowCrossDomain = function(req, res, next) {
 
 app.use(allowCrossDomain);
 app.use('/api/podcast/',podcast);
+app.use('/api/episode/',episode);
+app.use('/api/user/',user);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
