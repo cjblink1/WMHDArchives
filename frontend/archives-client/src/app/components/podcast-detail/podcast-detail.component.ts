@@ -39,8 +39,4 @@ export class PodcastDetailComponent implements OnInit {
 
     }
 
-  onEpisodeSelected(episode) {
-    console.log(episode.title);
-    this.episodeService.createNewEpisode();
-  }
 }
