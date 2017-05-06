@@ -5,4 +5,5 @@ export class User {
     email: string;
     profilePicURL: string;
     signedIn: boolean;
+    id_token: string;
 }

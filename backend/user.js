@@ -4,15 +4,26 @@ var router = express.Router();
 var db = require('./database');
 var multer = require('multer');
 var upload = multer(); // for parsing multipart/form-data
+var authenticate = require('./authenticate');
 
-router.get('/', function (req, res){
-    console.log('About to execute query');
-    db.execQuery('SELECT * FROM get_users()', [], function(Qres, err){
-        console.log('Executing all-users query');
-        if (err) {
-            res.send(err);
+router.get('/auth/:id_token', function (req, res){
+
+    var id_token = req.params.id_token;
+    authenticate.exchangeTokenForID(id_token, function(error, id){
+        if (error) {
+            console.log(error);
+            res.json(error);
         } else {
-            res.send(JSON.stringify(Qres.rows));
+            console.log("Got user id", id);
+            console.log('About to execute query');
+            db.execQuery('SELECT * FROM get_users($1)', [id], function(Qres, err){
+                console.log('Executing all-users query');
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send(JSON.stringify(Qres.rows));
+                }
+            });
         }
     });
 });

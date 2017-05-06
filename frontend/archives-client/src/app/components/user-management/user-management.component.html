@@ -8,4 +8,12 @@
     <th>Name</th>
     <th>Role</th>
   </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{user.firstName}} {{user.lastName}}</td>
+      <td>{{user.admin ? 'Admin' : 'Listener'}}</td>
+      <td><button class="btn btn-danger" *ngIf="user.admin">Demote</button>
+          <button class="btn btn-success" *ngIf="!user.admin">Promote</button></td>
+    </tr>
+  </tbody>
 </table>

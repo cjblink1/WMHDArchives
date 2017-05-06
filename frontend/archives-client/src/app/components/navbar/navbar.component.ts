@@ -18,7 +18,8 @@ export class NavbarComponent implements OnInit {
   signedIn: boolean;
 
   constructor(private authService: AuthService, 
-              private zone: NgZone) { 
+              private zone: NgZone, 
+              private router: Router) { 
     authService.userChanged$.subscribe(user => {
       zone.run(() => {
         this.user = user;
@@ -34,6 +35,7 @@ export class NavbarComponent implements OnInit {
     this.authService.signOut();
     this.user = Constants.USER;
     this.signedIn = false;
+    this.router.navigate(['/']);
   }
 
 }

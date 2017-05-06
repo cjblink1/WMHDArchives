@@ -9,6 +9,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { AuthService } from './services/auth.service';
 import { PodcastService } from './services/podcast.service';
 import { EpisodeService } from './services/episode.service';
+import { UserService } from './services/user.service';
 import { PodcastDeckComponent } from './components/podcast-deck/podcast-deck.component';
 import { PodcastCardComponent } from './components/podcast-card/podcast-card.component';
 import { PodcastDetailComponent } from './components/podcast-detail/podcast-detail.component';
@@ -50,7 +51,7 @@ const appRoutes: Routes = [
     HttpModule,
     JsonpModule
   ],
-  providers: [AuthService, PodcastService, EpisodeService],
+  providers: [AuthService, PodcastService, EpisodeService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
