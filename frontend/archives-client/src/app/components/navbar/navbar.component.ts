@@ -3,6 +3,7 @@ import { Podcast } from "../../models/podcast";
 import { User } from "../../models/user";
 import { AuthService } from "../../services/auth.service";
 import { Constants } from "../../models/constants";
+import { Router, UrlSegment } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +17,8 @@ export class NavbarComponent implements OnInit {
   user: User = new User();
   signedIn: boolean;
 
-  constructor(private authService: AuthService, private zone: NgZone) { 
+  constructor(private authService: AuthService, 
+              private zone: NgZone) { 
     authService.userChanged$.subscribe(user => {
       zone.run(() => {
         this.user = user;

@@ -1,6 +1,6 @@
 <div class="">
   <div class="row m-0">
-    <div class="col-md-4" id="sidebar">
+    <!--<div class="col-md-4" id="sidebar">
       <h3 class="my-2">
         Actions
       </h3>
@@ -19,10 +19,18 @@
           <span class="card-text">Episodes</span>
         </div>
       </div>
-    </div>
+    </div>-->
 
-    <div class="col-md-8" id="main-content-area">
+    <nav class="nav flex-column col-md-2" >
+      <a class="nav-link" href="" routerLink="/manage/users" routerLinkActive="active">Users</a>
+      <a class="nav-link" href="" routerLink="/manage/podcasts" routerLinkActive="active">Podcasts</a>
+      <a class="nav-link" href="" routerLink="/manage/episodes" routerLinkActive="active">Episodes</a>
+    </nav>
+
+    <div class="col-md-10" id="main-content-area">
       <router-outlet></router-outlet>
     </div>
   </div>
 </div>
+
+
