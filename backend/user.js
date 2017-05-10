@@ -40,6 +40,26 @@ router.get('/listeners/', function (req, res){
     });
 });
 
+router.post('/login/', function (req, res){
+    var id_token = req.body.id_token;
+    authenticate.exchangeTokenForID(id_token, function(error, info) {
+        if (error) {
+            console.log(error);
+            res.json(error);
+        } else {
+            db.execQuery('SELECT * FROM login(auth := $1, fname := $2, lname := $3)',
+                         info,
+                         function(Qres, err){
+                             if (err) {
+                                 res.send(err);
+                             } else {
+                                 res.send(JSON.stringify(Qres.rows));
+                             }
+                         });
+        }
+    });
+});
+
 router.get('/creators/', function (req, res){
     console.log('About to execute query');
     db.execQuery('SELECT * FROM get_creators()', [], function(Qres, err){

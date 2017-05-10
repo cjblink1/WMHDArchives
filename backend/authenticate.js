@@ -14,4 +14,20 @@ exports.exchangeTokenForID = function (id_token, callback) {
                                  callback(null, payload['sub']);
                              }
                          }); 
-}
+};
+
+exports.getUserInfoFromID = function (id_token, callback) {
+    client.verifyIdToken(id_token,
+                         CLIENT_ID,
+                         function (error, login) {
+                             if (error) {
+                                 callback(error, null);
+                             } else {
+                                 var payload = login.getPayload();
+                                 callback(null,
+                                          [payload['sub'],
+                                           payload['given_name'],
+                                           payload['family_name']]);
+                             }
+                         });
+};
