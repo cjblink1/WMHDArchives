@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Constants } from '../models/constants';
 import { User } from '../models/user';
 
@@ -16,7 +16,10 @@ export class UserService {
 
   constructor(private http: Http, 
               private authService: AuthService) {
-                this.authService.userChanged$.subscribe(user => this.currentUser = user);
+                this.authService.userChanged$.subscribe(user => {
+                       this.currentUser = user
+                       this.loginUser(user.id_token).subscribe(result => console.log("loginUser returns", result));       
+                });
   }
 
   public getUsers(): Observable<any[]> {
@@ -27,6 +30,15 @@ export class UserService {
     return this.http.get(Constants.BASE_URL+"/user/auth/"+this.currentUser.id_token)
                 .map(this.extractData)
                 .catch(this.handleError);
+  }
+
+  private loginUser(id_token: string): Observable<any[]> {
+    var body = {
+      'id_token': id_token
+    };
+    return this.http.post(Constants.BASE_URL+"/user/login", body)
+            .map(this.extractData)
+            .catch(this.handleError);
   }
 
   private extractData(res: Response) {
