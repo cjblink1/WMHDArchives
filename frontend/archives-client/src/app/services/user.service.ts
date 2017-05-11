@@ -6,6 +6,7 @@ import { User } from '../models/user';
 import { AuthService } from './auth.service'; 
 
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
@@ -16,29 +17,26 @@ export class UserService {
 
   constructor(private http: Http, 
               private authService: AuthService) {
+                console.log("User service created");
                 this.authService.userChanged$.subscribe(user => {
-                       this.currentUser = user
-                       this.loginUser(user.id_token).subscribe(result => console.log("loginUser returns", result));       
+                       this.currentUser = user    
                 });
   }
 
-  public getUsers(): Observable<any[]> {
-    // if not signed in...
+  public getUsers(callback) {
     if (!this.currentUser || !this.currentUser.signedIn) {
-      return new Observable<any[]>(observer => {});
+      this.authService.userChanged$.subscribe(user => {
+        callback(this.getUsersHttpRequest(user.id_token));
+      });
+    } else {
+      callback(this.getUsersHttpRequest(this.currentUser.id_token));
     }
-    return this.http.get(Constants.BASE_URL+"/user/auth/"+this.currentUser.id_token)
-                .map(this.extractData)
-                .catch(this.handleError);
   }
 
-  private loginUser(id_token: string): Observable<any[]> {
-    var body = {
-      'id_token': id_token
-    };
-    return this.http.post(Constants.BASE_URL+"/user/login", body)
-            .map(this.extractData)
-            .catch(this.handleError);
+  private getUsersHttpRequest(id_token: string): Observable<any[]> {
+    return this.http.get(Constants.BASE_URL+"/user/auth/"+id_token)
+                .map(this.extractData)
+                .catch(this.handleError);
   }
 
   private extractData(res: Response) {

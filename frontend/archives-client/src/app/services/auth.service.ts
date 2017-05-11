@@ -13,6 +13,7 @@ export class AuthService {
   userChanged$ = AuthService.userChangedSource.asObservable();
 
   constructor(private http: Http) { 
+    console.log("AuthService created.");
     gapi.load('auth2', () => {
       gapi.auth2.init({
         client_id: '35773705526-4rbi73014dnca9pc7e367ndugdha99fa.apps.googleusercontent.com',
@@ -37,16 +38,16 @@ export class AuthService {
   }
 
   private onSignIn(googleUser) {
+    console.log("User signedIn");
     AuthService.userChangedSource.next(AuthService.parseUser(googleUser));
-   // this.userLogin(googleUser.getAuthResponse().id_token);
+    //this.loginUser(googleUser.getAuthResponse().id_token);
   }
 
-  private userLogin(id_token: string) {
-    // TODO: http request to server to register user if not already registered
-  }
+  
 
   private static parseUser(googleUser) : User {
     const profile = googleUser.getBasicProfile();
+    console.log(googleUser.getAuthResponse().id_token);
     return {
       'id': profile.getId(),
       'firstName': profile.getGivenName(),

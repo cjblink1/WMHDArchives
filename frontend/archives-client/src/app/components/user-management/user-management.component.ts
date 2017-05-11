@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-user-management',
@@ -8,14 +9,22 @@ import { UserService } from '../../services/user.service';
 })
 export class UserManagementComponent implements OnInit {
 
-  users: any[] = [];
+  private users: any[];
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService,
+              private authService: AuthService,
+              private zone: NgZone) { }
 
   ngOnInit() {
-    this.userService.getUsers()
-                      .subscribe(users => this.users = users,
-                                 (error) => console.log(error));
+
+    this.userService.getUsers(observable => {
+      observable.subscribe(users => {
+        this.zone.run(() => {
+          this.users = users;
+        }); 
+      });
+    }); 
+    
   }
 
 }

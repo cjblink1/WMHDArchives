@@ -20,8 +20,10 @@ export class NavbarComponent implements OnInit {
   constructor(private authService: AuthService, 
               private zone: NgZone, 
               private router: Router) { 
+    console.log("Navbar created");
     authService.userChanged$.subscribe(user => {
       zone.run(() => {
+        console.log("Navbar signedIn");
         this.user = user;
         this.signedIn = user.signedIn;
       });

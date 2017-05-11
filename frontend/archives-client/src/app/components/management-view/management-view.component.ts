@@ -7,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManagementViewComponent implements OnInit {
 
-  constructor() { }
+  constructor() { 
+    console.log("Management view created");
+  }
 
   ngOnInit() {
   }
