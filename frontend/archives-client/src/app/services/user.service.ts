@@ -31,8 +31,14 @@ export class UserService {
     }
   }
 
+  public getUser(id_token: string): Observable<any[]> {
+    return this.http.get(Constants.BASE_URL+"/user/single/auth/"+id_token)
+              .map(this.extractData)
+              .catch(this.handleError);
+  }
+
   private getUsersHttpRequest(id_token: string): Observable<any[]> {
-    return this.http.get(Constants.BASE_URL+"/user/auth/"+id_token)
+    return this.http.get(Constants.BASE_URL+"/user/all/auth/"+id_token)
                 .map(this.extractData)
                 .catch(this.handleError);
   }

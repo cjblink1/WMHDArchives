@@ -2,6 +2,7 @@ import { Component, OnInit, Output, Input, EventEmitter, NgZone } from '@angular
 import { Podcast } from "../../models/podcast";
 import { User } from "../../models/user";
 import { AuthService } from "../../services/auth.service";
+import { UserService } from '../../services/user.service';
 import { Constants } from "../../models/constants";
 import { Router, UrlSegment } from '@angular/router';
 
@@ -18,6 +19,7 @@ export class NavbarComponent implements OnInit {
   signedIn: boolean;
 
   constructor(private authService: AuthService, 
+              private userService: UserService,
               private zone: NgZone, 
               private router: Router) { 
     console.log("Navbar created");
@@ -28,6 +30,10 @@ export class NavbarComponent implements OnInit {
         this.signedIn = user.signedIn;
       });
     });
+  }
+
+  private setAdminStatus(id_token: string) {
+    this.userService
   }
 
   ngOnInit() {
