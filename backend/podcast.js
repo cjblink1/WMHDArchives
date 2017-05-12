@@ -16,12 +16,13 @@ router.get('/', function (req, res){
 
 router.post('/', upload.array(), function (req, res){
 
-    var inStr = util.format('Podcast post request: SELECT create_podcast(new_name := \'%s\', new_description := \'%s\')',
-                            req.body.name, req.body.description);
-    console.log(inStr);
+    var id_token = req.body.id_token;
+    var name = req.body.name;
+    var description = req.body.description;
 
-    db.execQuery('SELECT create_podcast(new_name := $1, new_description := $2, auth := $3)',
-                 [req.body.name, req.body.description, req.body.auth],
+    authenticate.exchangeTokenForID(id_token, function (error, id) {
+        db.execQuery('SELECT create_podcast(new_name := $1, new_description := $2, auth := $3)',
+                 [name, description, id],
                  function(Qres, err) {
                      if (err) {
                          res.send(err);
@@ -30,6 +31,7 @@ router.post('/', upload.array(), function (req, res){
                          res.send(Qres);
                      }
                  });
+    });
 });
 
 router.put('/', upload.array(), function (req, res){

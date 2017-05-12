@@ -43,8 +43,17 @@ export class PodcastService {
                       .catch(this.handleError)
                       .subscribe(result => callback());
     });
-    
   }
+
+   public createPodcast(name: string, description: string, callback) {
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+      this.authService.getUser().then(user =>{
+        this.http.post(Constants.BASE_URL+"/podcast/",
+        JSON.stringify({'name': name, 'description': description, 'id_token': user.id_token}), 
+        options).subscribe(result => callback());
+      });
+   }
 
   private extractData(res: Response) {
     let body = res.json();
