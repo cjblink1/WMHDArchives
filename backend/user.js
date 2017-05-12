@@ -49,6 +49,28 @@ router.get('/single/auth/:id_token', function (req, res){
     });
 });
 
+router.post('/set-admin/', upload.array(), function(req, res) {
+    var id_token = req.body.id_token;
+    authenticate.exchangeTokenForID(id_token, function(error, id){
+        if (error) {
+            console.log(error);
+            res.json(error);
+        } else {
+            console.log("Got user id", id);
+            console.log('About to execute set-admin query');
+            db.execQuery('SELECT set_admin_status(auth := $1, u_id := $2, admin := $3)',
+                         [id, req.body.u_id, req.body.admin], function(Qres, err){
+                console.log('Executing admin query');
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send(JSON.stringify(Qres.rows));
+                }
+            });
+        }
+    });
+});
+
 router.get('/listeners/', function (req, res){
     console.log('About to execute query');
     db.execQuery('SELECT * FROM get_listeners()', [], function(Qres, err){

@@ -14,6 +14,7 @@ export class AuthService {
 
   private userChangedSource: Subject<User>;
   userChanged$: Observable<User>;
+  user: User;
 
   constructor(private http: Http, private googleAuth: GoogleAuthService) { 
     this.userChangedSource = new Subject<User>();
@@ -23,13 +24,14 @@ export class AuthService {
   }
 
   public getUser(): Promise<User> {
-    return new Promise(resolve => resolve(Constants.USER));
+    return new Promise(resolve => resolve(this.user));
   }
 
   private onSignIn = googleUser => {
     console.log("User signedIn", this);
     this.loginUser(googleUser.getAuthResponse().id_token);
-    this.userChangedSource.next(this.parseUser(googleUser));
+    this.user = this.parseUser(googleUser);
+    this.userChangedSource.next(this.user);
     //this.loginUser(googleUser.getAuthResponse().id_token);
   }
 
