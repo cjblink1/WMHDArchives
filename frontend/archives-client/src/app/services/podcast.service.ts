@@ -26,6 +26,13 @@ export class PodcastService {
            .catch(this.handleError);
   }
 
+  public searchPodcast(searchString: string): Observable<any> {
+    var terms = searchString.replace(/ /g, "&");
+    return this.http.get(Constants.BASE_URL+"/podcast/search/"+terms)
+            .map(this.extractData)
+            .catch(this.handleError);
+  }
+
   private extractData(res: Response) {
     let body = res.json();
     return body || {};

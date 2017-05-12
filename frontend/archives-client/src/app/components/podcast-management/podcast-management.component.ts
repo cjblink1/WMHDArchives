@@ -18,4 +18,14 @@ export class PodcastManagementComponent implements OnInit {
                             .subscribe(podcasts => this.podcasts = podcasts);
   }
 
+  private searchChange(event) {
+    if (event.srcElement.value === "") {
+      this.podcastService.getAllPodcasts()
+                            .subscribe(podcasts => this.podcasts = podcasts);
+    } else {
+      this.podcastService.searchPodcast(event.srcElement.value)
+            .subscribe(result => this.podcasts = result.rows);
+    }
+  }
+
 }
