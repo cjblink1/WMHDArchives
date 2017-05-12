@@ -18,6 +18,7 @@ import { ManagementViewComponent } from './components/management-view/management
 import { UserManagementComponent } from './components/user-management/user-management.component';
 import { PodcastManagementComponent } from './components/podcast-management/podcast-management.component';
 import { EpisodeManagementComponent } from './components/episode-management/episode-management.component';
+import { AddPodcastComponent } from './components/add-podcast/add-podcast.component';
 
 const appRoutes: Routes = [
   { path: '', component: PodcastDeckComponent },
@@ -28,7 +29,8 @@ const appRoutes: Routes = [
     children: [
       { path: 'users', component: UserManagementComponent },
       { path: 'podcasts', component: PodcastManagementComponent },
-      { path: 'episodes', component: EpisodeManagementComponent }
+      { path: 'episodes', component: EpisodeManagementComponent },
+      { path: 'add-podcast', component: AddPodcastComponent }
     ]
  }
 ]
@@ -43,7 +45,8 @@ const appRoutes: Routes = [
     ManagementViewComponent,
     UserManagementComponent,
     PodcastManagementComponent,
-    EpisodeManagementComponent
+    EpisodeManagementComponent,
+    AddPodcastComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

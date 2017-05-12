@@ -1,16 +1,15 @@
-<div class="row p-2">
-  <!--<div class="btn-group">
-    <button class="btn btn-primary">Add Podcast</button>
-  </div>-->
-
-  <div>
-    <input type="text" class="form-control" placeholder="Search" (input)="searchChange($event)"/>
+<div class="m-2">
+  <div class="form-group row">
+    <input type="text" class=" col-md-4 form-control mx-2" placeholder="Search" (input)="searchChange($event)"/>
+    <button class="btn btn-primary mx-2" routerLink="/manage/add-podcast" >New Podcast</button>
   </div>
 </div>
 <table class="table">
   <thead>
     <th>Name</th>
     <th>Description</th>
+    <th></th>
+    <th></th>
   </thead>
   <tbody>
     <tr *ngFor="let podcast of podcasts">
