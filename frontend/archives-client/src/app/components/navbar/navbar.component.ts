@@ -17,6 +17,7 @@ export class NavbarComponent implements OnInit {
   @Output() onCurrentPodcastClick = new EventEmitter();
   user: User = new User();
   signedIn: boolean;
+  is_admin: boolean;
 
   constructor(private authService: AuthService, 
               private userService: UserService,
@@ -27,6 +28,8 @@ export class NavbarComponent implements OnInit {
       zone.run(() => {
         console.log("Navbar signedIn");
         this.user = user;
+        this.signedIn = user.signedIn;
+        this.setAdminStatus(user.id_token);
       });
     });
   }
@@ -34,7 +37,7 @@ export class NavbarComponent implements OnInit {
   private setAdminStatus(id_token: string) {
     this.userService.getUser(id_token).subscribe(users => {
       console.log("Got user", users[0]);
-      this.signedIn = users[0].is_admin;
+      this.is_admin = users[0].is_admin;
     });
   }
 

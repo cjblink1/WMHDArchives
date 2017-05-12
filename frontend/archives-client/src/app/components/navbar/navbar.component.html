@@ -8,7 +8,7 @@
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
         <a href="" routerLink="/" class="nav-link">Podcasts</a>
       </li>
-      <li [hidden]="!signedIn" class="nav-item" routerLinkActive="active">
+      <li [hidden]="!is_admin" class="nav-item" routerLinkActive="active">
         <a href="" routerLink="/manage" class="nav-link">Manage</a>
       </li>
     </ul>
