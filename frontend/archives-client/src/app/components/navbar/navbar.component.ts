@@ -48,6 +48,7 @@ export class NavbarComponent implements OnInit {
     this.authService.signOut();
     this.user = Constants.USER;
     this.signedIn = false;
+    this.is_admin = false;
     this.router.navigate(['/']);
   }
 
