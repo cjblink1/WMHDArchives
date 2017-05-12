@@ -1,53 +1,68 @@
 import { Injectable, OnInit } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Constants } from "../models/constants";
 import { User } from "../models/user";
 import { Subject } from "rxjs/Subject";
+import { Observable } from "rxjs/Observable";
+
+import { GoogleAuthService } from "../services/google-auth.service";
 
 declare const gapi: any;
 
 @Injectable()
 export class AuthService {
 
-  static userChangedSource = new Subject<User>();
-  userChanged$ = AuthService.userChangedSource.asObservable();
+  private userChangedSource: Subject<User>;
+  userChanged$: Observable<User>;
 
-  constructor(private http: Http) { 
+  constructor(private http: Http, private googleAuth: GoogleAuthService) { 
+    this.userChangedSource = new Subject<User>();
+    this.userChanged$ = this.userChangedSource.asObservable();
+    this.googleAuth.googleAuthInit(this.onSignIn, this.onFailure); 
     console.log("AuthService created.");
-    gapi.load('auth2', () => {
-      gapi.auth2.init({
-        client_id: '35773705526-4rbi73014dnca9pc7e367ndugdha99fa.apps.googleusercontent.com',
-        scope: 'profile email',
-        cookiepolicy: 'single_host_origin'
-      });
-
-      gapi.signin2.render('my-signin2', {
-        'scope': 'profile email',
-        'width': 180,
-        'height': 36,
-        'longtitle': true,
-        'theme': 'dark',
-        'onsuccess': this.onSignIn,
-        'onfailure': this.onFailure
-      });
-    });
   }
 
   public getUser(): Promise<User> {
     return new Promise(resolve => resolve(Constants.USER));
   }
 
-  private onSignIn(googleUser) {
-    console.log("User signedIn");
-    AuthService.userChangedSource.next(AuthService.parseUser(googleUser));
+  private onSignIn = googleUser => {
+    console.log("User signedIn", this);
+    this.loginUser(googleUser.getAuthResponse().id_token);
+    this.userChangedSource.next(this.parseUser(googleUser));
     //this.loginUser(googleUser.getAuthResponse().id_token);
   }
 
-  
+  private loginUser(id_token: string) {
+    console.log("Logging in user");
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    this.http.post(Constants.BASE_URL+"/user/login", JSON.stringify({
+      'id_token': id_token
+    }), options).map(this.extractData)
+      .catch(this.handleError).subscribe();
+  }
 
-  private static parseUser(googleUser) : User {
+   private extractData(res: Response) {
+    let body = res.json();
+    return body || {};
+  }
+
+  private handleError(error: Response | any){
+    let errMsg: string;
+    if (error instanceof Response) {
+      const body = error.json() || '';
+      const err = body.error || JSON.stringify(body);
+      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+    } else {
+      errMsg = error.message ? error.message : error.toString();
+    }
+    console.error(errMsg);
+    return Observable.throw(errMsg);
+  }
+
+  private parseUser(googleUser) : User {
     const profile = googleUser.getBasicProfile();
-    console.log(googleUser.getAuthResponse().id_token);
     return {
       'id': profile.getId(),
       'firstName': profile.getGivenName(),
@@ -59,13 +74,11 @@ export class AuthService {
     };
   }
 
-  private onFailure() {
+  private onFailure = () => {
     console.log("Failure");
   }
 
   public signOut() {
-    console.log("Signed Out");
-    gapi.auth2.getAuthInstance().disconnect();
-    gapi.auth2.getAuthInstance().signOut();
+    this.googleAuth.signOut();
   }
 }
