@@ -27,13 +27,12 @@ export class NavbarComponent implements OnInit {
       zone.run(() => {
         console.log("Navbar signedIn");
         this.user = user;
-        this.signedIn = user.signedIn;
       });
     });
   }
 
   private setAdminStatus(id_token: string) {
-    this.userService
+    this.userService.getUser(id_token).subscribe(users => this.signedIn = users[0].is_admin);
   }
 
   ngOnInit() {
