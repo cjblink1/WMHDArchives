@@ -117,4 +117,59 @@ router.delete('/', upload.array(), function (req, res){
                  });
 });
 
+router.get('/creators/search/:term', function (req, res){
+    db.execQuery('SELECT * FROM search_creators($1)', [req.params.term], function (Qres, err) {
+        if (err) {
+            res.send(err);
+        } else {
+            console.log('Searched creators');
+            res.send(Qres);
+        }
+    });
+});
+
+router.get('/admin/auth/:id', function (req, res) {
+    var id_token = req.params.id_token;
+
+    authenticate.exchangeTokenForID(id_token, function(error, id){
+        if (error) {
+            console.log(error);
+            res.json(error);
+        } else {
+            console.log("Got user id", id);
+            console.log('About to execute query');
+            db.execQuery('SELECT * FROM get_admins($1)', [id], function(Qres, err){
+                console.log('Executing admin query');
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send(JSON.stringify(Qres.rows));
+                }
+            });
+        }
+    });
+});
+
+router.post('/like/', upload.array(), function(req, res) {
+    var id_token = req.body.id_token;
+
+    authenticate.exchangeTokenForID(id_token, function(error, id){
+        if (error) {
+            console.log(error);
+            res.json(error);
+        } else {
+            console.log("Got user id", id);
+            console.log('About to execute query');
+            db.execQuery('SELECT * FROM like($1, $2)', [id, req.body.p_id], function(Qres, err){
+                console.log('Executing like query');
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send(JSON.stringify(Qres.rows));
+                }
+            });
+        }
+    });
+});
+
 module.exports = router;
