@@ -147,6 +147,28 @@ router.get('/admin/auth/:id', function (req, res) {
     });
 });
 
+router.get('/listener/auth/:id', function (req, res) {
+    var id_token = req.params.id_token;
+
+    authenticate.exchangeTokenForID(id_token, function(error, id){
+        if (error) {
+            console.log(error);
+            res.json(error);
+        } else {
+            console.log("Got user id", id);
+            console.log('About to execute query');
+            db.execQuery('SELECT * FROM get_listeners(auth := $1)', [id], function(Qres, err){
+                console.log('Executing admin query');
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send(JSON.stringify(Qres.rows));
+                }
+            });
+        }
+    });
+});
+
 router.post('/like/', upload.array(), function(req, res) {
     var id_token = req.body.id_token;
 

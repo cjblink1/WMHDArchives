@@ -68,7 +68,7 @@ router.delete('/', upload.array(), function (req, res){
 router.get('/:id', function(req, res) {
     var inStr = util.format('Get podcast request, SELECT get_podcast(p_id := %d)',
                             req.params.id);
-    
+
     db.execQuery('SELECT * FROM get_podcast(p_id := $1)',
                  [req.params.id],
                  function(Qres, err) {
@@ -79,6 +79,17 @@ router.get('/:id', function(req, res) {
                          res.send(JSON.stringify(Qres.rows[0]));
                      }
                  });
+});
+
+router.get('/search/:terms', function (req, res) {
+    db.execQuery('SELECT * FROM search_podcasts(term := $1)', [req.params.terms], function(Qres, err) {
+        if(err) {
+            res.send(err);
+        } else {
+            console.log('Searched podcasts');
+            res.send(Qres);
+        }
+    });
 });
 
 module.exports = router;
