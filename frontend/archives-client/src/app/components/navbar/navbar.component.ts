@@ -32,7 +32,10 @@ export class NavbarComponent implements OnInit {
   }
 
   private setAdminStatus(id_token: string) {
-    this.userService.getUser(id_token).subscribe(users => this.signedIn = users[0].is_admin);
+    this.userService.getUser(id_token).subscribe(users => {
+      console.log("Got user", users[0]);
+      this.signedIn = users[0].is_admin;
+    });
   }
 
   ngOnInit() {
