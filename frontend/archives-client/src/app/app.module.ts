@@ -7,6 +7,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AuthService } from './services/auth.service';
+import { GoogleAuthService } from './services/google-auth.service';
 import { PodcastService } from './services/podcast.service';
 import { EpisodeService } from './services/episode.service';
 import { UserService } from './services/user.service';
@@ -51,7 +52,7 @@ const appRoutes: Routes = [
     HttpModule,
     JsonpModule
   ],
-  providers: [AuthService, PodcastService, EpisodeService, UserService],
+  providers: [AuthService, GoogleAuthService, PodcastService, EpisodeService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

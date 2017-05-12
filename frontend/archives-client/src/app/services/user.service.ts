@@ -6,7 +6,6 @@ import { User } from '../models/user';
 import { AuthService } from './auth.service'; 
 
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
@@ -17,7 +16,6 @@ export class UserService {
 
   constructor(private http: Http, 
               private authService: AuthService) {
-                console.log("User service created");
                 this.authService.userChanged$.subscribe(user => {
                        this.currentUser = user    
                 });

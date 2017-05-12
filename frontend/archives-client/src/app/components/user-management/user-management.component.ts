@@ -20,6 +20,7 @@ export class UserManagementComponent implements OnInit {
     this.userService.getUsers(observable => {
       observable.subscribe(users => {
         this.zone.run(() => {
+          console.log(users);
           this.users = users;
         }); 
       });

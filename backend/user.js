@@ -40,14 +40,17 @@ router.get('/listeners/', function (req, res){
     });
 });
 
-router.post('/login/', function (req, res){
+router.post('/login/', upload.array(), function (req, res){
+    console.log(req.body)
     var id_token = req.body.id_token;
-    authenticate.exchangeTokenForID(id_token, function(error, info) {
+    console.log("Logging in user")
+    authenticate.getUserInfoFromID(id_token, function(error, info) {
+        console.log(info);
         if (error) {
             console.log(error);
             res.json(error);
         } else {
-            db.execQuery('SELECT * FROM login(auth := $1, fname := $2, lname := $3)',
+            db.execQuery("SELECT login(auth := $1, fname := $2, lname := $3)",
                          info,
                          function(Qres, err){
                              if (err) {
