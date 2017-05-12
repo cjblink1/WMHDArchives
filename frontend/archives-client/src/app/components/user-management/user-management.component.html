@@ -13,7 +13,7 @@
       <td>{{user.firstname}} {{user.lastname}}</td>
       <td>{{user.is_admin ? 'Admin' : 'Listener'}}</td>
       <td><button class="btn btn-danger" *ngIf="user.is_admin">Demote</button>
-          <button class="btn btn-success" *ngIf="!useris_.admin">Promote</button></td>
+          <button class="btn btn-success" *ngIf="!user.is_admin">Promote</button></td>
     </tr>
   </tbody>
 </table>
