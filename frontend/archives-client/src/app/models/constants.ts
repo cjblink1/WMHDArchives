@@ -11,5 +11,5 @@ export class Constants {
         id_token: '0'
     }
 
-    static BASE_URL: string = 'http://localhost:3000/api';
+    static BASE_URL: string = 'http://archives.cjblink1.pro:3000/api';
 }
