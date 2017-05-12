@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+
+import { AuthService } from '../services/auth.service';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
@@ -12,7 +14,7 @@ import { Constants } from '../models/constants';
 @Injectable()
 export class PodcastService {
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private authService: AuthService) { }
 
   public getAllPodcasts(): Observable<Podcast[]> {
     return this.http.get(Constants.BASE_URL+'/podcast/')
@@ -31,6 +33,17 @@ export class PodcastService {
     return this.http.get(Constants.BASE_URL+"/podcast/search/"+terms)
             .map(this.extractData)
             .catch(this.handleError);
+  }
+
+  public deletePodcast(p_id: number, callback) {
+    this.authService.getUser().then(user => {
+       this.http.delete(Constants.BASE_URL+"/podcast/p_id/"
+                      +p_id+"/auth/"+user.id_token)
+                      .map(this.extractData)
+                      .catch(this.handleError)
+                      .subscribe(result => callback());
+    });
+    
   }
 
   private extractData(res: Response) {

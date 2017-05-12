@@ -4,6 +4,7 @@ var router = express.Router();
 var db = require('./database');
 var multer = require('multer');
 var upload = multer(); // for parsing multipart/form-data
+var authenticate = require('./authenticate');
 
 router.get('/', function (req, res){
     console.log('About to execute query');
@@ -48,13 +49,12 @@ router.put('/', upload.array(), function (req, res){
                  });
 });
 
-router.delete('/', upload.array(), function (req, res){
-    var inStr = util.format('Podcast delete request, SELECT delete_podcast(p_id := %d)',
-                            req.body.id);
-    console.log(inStr);
-
-    db.execQuery('SELECT delete_podcast(p_id := $1, auth := $2)',
-                 [req.body.id, req.body.auth],
+router.delete('/p_id/:p_id/auth/:id_token', function (req, res){
+    var id_token = req.params.id_token;
+    var p_id = req.params.p_id;
+    authenticate.exchangeTokenForID(id_token, function(error, id) {
+         db.execQuery('SELECT delete_podcast(p_id := $1, auth := $2)',
+                 [p_id, id],
                  function(Qres, err) {
                      if (err) {
                          res.send(err);
@@ -63,6 +63,7 @@ router.delete('/', upload.array(), function (req, res){
                          res.send(Qres);
                      }
                  });
+    });
 });
 
 router.get('/:id', function(req, res) {

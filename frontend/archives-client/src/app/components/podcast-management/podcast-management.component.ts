@@ -28,4 +28,11 @@ export class PodcastManagementComponent implements OnInit {
     }
   }
 
+  private deletePodcast(podcast: Podcast) {
+    this.podcastService.deletePodcast(podcast.podcast_id, () => {
+      this.podcastService.getAllPodcasts()
+                            .subscribe(podcasts => this.podcasts = podcasts);
+    });
+  }
+
 }
