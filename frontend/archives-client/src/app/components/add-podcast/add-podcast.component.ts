@@ -10,13 +10,16 @@ import { PodcastService } from '../../services/podcast.service';
 })
 export class AddPodcastComponent implements OnInit {
 
+  private name: string;
+  private description: string;
+
   constructor(private podcastService: PodcastService, private router: Router) { }
 
   ngOnInit() {
   }
 
-  private submit(name: string, description: string) {
-    this.podcastService.createPodcast(name, description, () =>{
+  private submit() {
+    this.podcastService.createPodcast(this.name, this.description, () =>{
       this.router.navigate(['/manage/podcasts']);
     });
   }

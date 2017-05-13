@@ -55,6 +55,17 @@ export class PodcastService {
       });
    }
 
+   public updatePodcast(p_id: number, name: string, description: string, callback) {
+     console.log(p_id);
+     let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+      this.authService.getUser().then(user => {
+        this.http.put(Constants.BASE_URL+"/podcast/",
+        JSON.stringify({'p_id': p_id, 'name': name, 'description': description, 'id_token': user.id_token}), 
+        options).subscribe(result => callback());
+      });
+   }
+
   private extractData(res: Response) {
     let body = res.json();
     return body || {};
