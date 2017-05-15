@@ -116,4 +116,18 @@ router.get('/search/:terms', function (req, res) {
     });
 });
 
+router.get('/creator/:c_id/', function(req, res) {
+    var c_id = req.params.c_id;
+    db.execQuery('SELECT * FROM get_creators_podcasts(c_id := $1)',
+                 [c_id, id],
+                 function(Qres, err) {
+                     if (err) {
+                         res.send(err);
+                     } else {
+                         console.log('Got creator\'s podcasts');
+                         res.send(Qres);
+                     }
+                 });
+});
+
 module.exports = router;
