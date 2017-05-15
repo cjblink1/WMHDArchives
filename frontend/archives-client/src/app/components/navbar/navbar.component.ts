@@ -51,6 +51,7 @@ export class NavbarComponent implements OnInit {
     this.user = Constants.USER;
     this.signedIn = false;
     this.is_admin = false;
+    this.is_creator = false;
     this.router.navigate(['/']);
   }
 
