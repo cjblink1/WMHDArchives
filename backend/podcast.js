@@ -116,4 +116,20 @@ router.get('/search/:terms', function (req, res) {
     });
 });
 
+router.get('/creator/auth/:id_token', function(req, res) {
+    var id_token = req.params.id_token;
+    authenticate.exchangeTokenForID(id_token, function (error, id) {
+        db.execQuery('SELECT * FROM get_creators_podcasts( auth := $1)',
+                     [id],
+                     function(Qres, err) {
+                         if (err) {
+                             res.send(err);
+                         } else {
+                             console.log('Got creator\'s podcasts');
+                             res.send(Qres);
+                         }
+                     });
+    });
+});
+
 module.exports = router;
