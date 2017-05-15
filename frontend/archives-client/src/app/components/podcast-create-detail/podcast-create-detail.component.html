@@ -1,0 +1,30 @@
+<div class="my-2">
+  <h2>{{name}}</h2>
+  <button class="btn btn-primary" [routerLink]="['/create/add-episode/podcast', podcast_id]">New Episode</button>
+</div>
+<table class="table">
+    <thead>
+      <th>
+          Title
+      </th>
+      <th>
+          Description
+      </th>
+      <th>
+          Date Published
+      </th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let episode of episodes">
+        <td>
+          {{episode.title}}
+        </td>
+        <td>
+          {{episode.description}}
+        </td>
+        <td>
+          {{episode.date_published}}
+        </td>
+      </tr>
+    </tbody>
+  </table>

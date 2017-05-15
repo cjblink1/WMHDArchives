@@ -22,6 +22,9 @@ import { AddPodcastComponent } from './components/add-podcast/add-podcast.compon
 import { PodcastManageDetailComponent } from './components/podcast-manage-detail/podcast-manage-detail.component';
 import { CreationViewComponent } from './components/creation-view/creation-view.component';
 import { PodcastCreationComponent } from './components/podcast-creation/podcast-creation.component';
+import { PodcastCreateDetailComponent } from './components/podcast-create-detail/podcast-create-detail.component';
+import { EpisodeCreationComponent } from './components/episode-creation/episode-creation.component';
+import { AddEpisodeComponent } from './components/add-episode/add-episode.component';
 
 const appRoutes: Routes = [
   { path: '', component: PodcastDeckComponent },
@@ -41,7 +44,10 @@ const appRoutes: Routes = [
    path: 'create',
    component: CreationViewComponent,
    children: [
-     { path: 'podcasts', component: PodcastCreationComponent }
+     { path: 'podcasts', component: PodcastCreationComponent },
+     { path: 'episodes', component: EpisodeCreationComponent },
+     { path: 'podcast/:id', component: PodcastCreateDetailComponent },
+     { path: 'add-episode/podcast/:p_id', component: AddEpisodeComponent }
    ]
  }
 ]
@@ -60,7 +66,10 @@ const appRoutes: Routes = [
     AddPodcastComponent,
     PodcastManageDetailComponent,
     CreationViewComponent,
-    PodcastCreationComponent
+    PodcastCreationComponent,
+    PodcastCreateDetailComponent,
+    EpisodeCreationComponent,
+    AddEpisodeComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
