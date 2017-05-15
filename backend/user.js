@@ -257,4 +257,15 @@ router.get('/search/:term/auth/:id', function (req, res){
     });
 });
 
+router.get('/creators/contributors/podcast/:p_id', function (req, res) {
+    db.execQuery('SELECT * FROM get_all_contributors(p_id := $1)', [req.params.p_id], function (Qres, err) {
+        if (err) {
+            res.send(err);
+        } else {
+            console.log('Got all contributors');
+            res.send(Qres);
+        }
+    });
+});
+
 module.exports = router;
