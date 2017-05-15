@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddEpisodeComponent implements OnInit {
 
-  private name: string;
+  private title: string;
   private description: string;
 
   constructor() { }
