@@ -18,6 +18,7 @@ export class NavbarComponent implements OnInit {
   user: User = new User();
   signedIn: boolean;
   is_admin: boolean;
+  is_creator: boolean;
 
   constructor(private authService: AuthService, 
               private userService: UserService,
@@ -29,16 +30,17 @@ export class NavbarComponent implements OnInit {
         console.log("Navbar signedIn");
         this.user = user;
         this.signedIn = user.signedIn;
-        this.setAdminStatus(user.id_token);
+        this.toggleAdditionalMenus();
       });
     });
   }
 
-  private setAdminStatus(id_token: string) {
-    this.userService.getUser(id_token).subscribe(users => {
-      console.log("Got user", users[0]);
-      this.is_admin = users[0].is_admin;
-    });
+  private toggleAdditionalMenus() {
+    this.userService.getUser(result => result.subscribe(user => {
+        this.is_admin = user[0].is_admin;
+        this.is_creator = user[0].is_creator;
+    }));
+     
   }
 
   ngOnInit() {

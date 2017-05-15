@@ -15,7 +15,7 @@
     <tr *ngFor="let podcast of podcasts">
       <td>{{podcast.name}}</td>
       <td>{{podcast.description}}</td>
-      <td><button class="btn btn-primary" [routerLink]="['/manage/podcast', podcast.podcast_id]">View Details</button></td>
+      <td><button class="btn btn-primary" [routerLink]="['/manage/podcast', podcast.podcast_id]">Edit</button></td>
       <td><button class="btn btn-danger" (click)="deletePodcast(podcast)">Remove</button></td>
     </tr>
   </tbody>

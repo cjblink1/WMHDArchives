@@ -11,6 +11,9 @@
       <li [hidden]="!is_admin" class="nav-item" routerLinkActive="active">
         <a href="" routerLink="/manage" class="nav-link">Manage</a>
       </li>
+      <li [hidden]="!is_creator" class="nav-item" routerLinkActive="active">
+        <a href="" routerLink="/create" class="nav-link">Create</a>
+      </li>
     </ul>
     <a style="text-decoration: none" data-toggle="modal" data-target="#userModal" href="#">
       <img [hidden]="!signedIn" [src]="user.profilePicURL" class="my-0 mr-sm-2 rounded-circle" style="height: 36px"/>

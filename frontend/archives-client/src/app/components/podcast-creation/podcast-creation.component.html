@@ -1,0 +1,16 @@
+<h2>My Podcasts</h2>
+<table class="table">
+  <thead>
+    <th>Name</th>
+    <th>Description</th>
+    <th></th>
+    <th></th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let podcast of podcasts">
+      <td>{{podcast.name}}</td>
+      <td>{{podcast.description}}</td>
+      <td><button class="btn btn-primary" [routerLink]="['/create/podcast', podcast.podcast_id]">View Details</button></td>
+    </tr>
+  </tbody>
+</table>

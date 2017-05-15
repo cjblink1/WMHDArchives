@@ -3,6 +3,7 @@ export class Podcast {
     podcast_id: number;
     name: string;
     description: string;
+    searchvector: string;
 
     constructor(podcast_id, name, description){
         this.podcast_id = podcast_id;

@@ -20,6 +20,8 @@ import { PodcastManagementComponent } from './components/podcast-management/podc
 import { EpisodeManagementComponent } from './components/episode-management/episode-management.component';
 import { AddPodcastComponent } from './components/add-podcast/add-podcast.component';
 import { PodcastManageDetailComponent } from './components/podcast-manage-detail/podcast-manage-detail.component';
+import { CreationViewComponent } from './components/creation-view/creation-view.component';
+import { PodcastCreationComponent } from './components/podcast-creation/podcast-creation.component';
 
 const appRoutes: Routes = [
   { path: '', component: PodcastDeckComponent },
@@ -34,6 +36,13 @@ const appRoutes: Routes = [
       { path: 'add-podcast', component: AddPodcastComponent },
       { path: 'podcast/:id', component: PodcastManageDetailComponent }
     ]
+ }, 
+ {
+   path: 'create',
+   component: CreationViewComponent,
+   children: [
+     { path: 'podcasts', component: PodcastCreationComponent }
+   ]
  }
 ]
 
@@ -49,7 +58,9 @@ const appRoutes: Routes = [
     PodcastManagementComponent,
     EpisodeManagementComponent,
     AddPodcastComponent,
-    PodcastManageDetailComponent
+    PodcastManageDetailComponent,
+    CreationViewComponent,
+    PodcastCreationComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

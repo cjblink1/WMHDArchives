@@ -31,10 +31,14 @@ export class UserService {
     }
   }
 
-  public getUser(id_token: string): Observable<any[]> {
-    return this.http.get(Constants.BASE_URL+"/user/single/auth/"+id_token)
-              .map(this.extractData)
-              .catch(this.handleError);
+  public getUser(callback) {
+    if (!this.currentUser || !this.currentUser.signedIn) {
+      this.authService.userChanged$.subscribe(user => {
+        callback(this.getUserHttpRequest(user.id_token));
+      });
+    } else {
+      callback(this.getUserHttpRequest(this.currentUser.id_token));
+    }
   }
 
   public setAdminStatus(u_id: number, status: boolean, callback) {
@@ -54,6 +58,12 @@ export class UserService {
                 .map(this.extractData)
                 .catch(this.handleError);
   }
+
+  private getUserHttpRequest(id_token: string): Observable<any[]> {
+    return this.http.get(Constants.BASE_URL+"/user/single/auth/"+id_token)
+                .map(this.extractData)
+                .catch(this.handleError);
+  } 
 
   private extractData(res: Response) {
     let body = res.json();
