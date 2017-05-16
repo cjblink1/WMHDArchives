@@ -17,7 +17,7 @@ var allowCrossDomain = function(req, res, next) {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(fileUploader);
+//app.use(fileUploader);
 
 app.use(allowCrossDomain);
 app.use('/api/podcast/',podcast);
