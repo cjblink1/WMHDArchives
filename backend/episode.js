@@ -4,7 +4,6 @@ var router = express.Router();
 var db = require('./database');
 var multer = require('multer');
 var upload = multer(); // for parsing multipart/form-data
-var fileUpload = require('express-fileupload');
 var authenticate = require('./authenticate');
 
 router.get('/', function (req, res){
