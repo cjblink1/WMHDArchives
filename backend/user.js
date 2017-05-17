@@ -71,20 +71,6 @@ router.post('/set-admin/', upload.array(), function(req, res) {
     });
 });
 
-/*
-router.get('/listeners/', function (req, res){
-    console.log('About to execute query');
-    db.execQuery('SELECT * FROM get_listeners()', [], function(Qres, err){
-        console.log('Executing all-listeners query');
-        if (err) {
-            res.send(err);
-        } else {
-            res.send(JSON.stringify(Qres.rows));
-        }
-    });
-});
-*/
-
 router.post('/login/', upload.array(), function (req, res){
     console.log(req.body);
     var id_token = req.body.id_token;
