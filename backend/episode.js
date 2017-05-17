@@ -59,15 +59,16 @@ router.post('/', upload.array(), function (req, res){
 
 router.put('/', upload.array(), function (req, res){
 
-    db.execQuery('SELECT update_episode(episode_id := $1, creator := $2, podcast := $3, description := $4, length := $5, title := $6, date_published := $6, auth := $7)',
-                 [req.body.episode_id, req.body.creator, req.body.podcast, req.body.description, req.body.length, req.body.title, req.body.date_published, req.body.auth],
-                 function(Qres, err) {
-                     if (err) {
-                         res.send(err);
-                     } else {
-                         console.log('Updated episode');
-                         res.send(Qres);
-                         if (req.files.podcastFile) {
+    authenticate.exchangeTokenForID(req.body.id_token, function (error, id) {
+        db.execQuery('SELECT update_episode(episode_id := $1, creator := $2, podcast := $3, description := $4, length := $5, title := $6, date_published := $6, auth := $7)',
+                     [req.body.episode_id, req.body.creator, req.body.podcast, req.body.description, req.body.length, req.body.title, req.body.date_published, id],
+                     function(Qres, err) {
+                         if (err) {
+                             console.log(err);
+                             res.send(err);
+                         } else {
+                             res.send(Qres);
+/*                         if (req.files.podcastFile) {
                              var podcastFile = req.files.podcastFile;
                              podcastFile.mv('/podcasts/'+req.body.podcast+'/'+req.body.episode_id+'.mp4/', function (error) {
                                  if (error) {
@@ -75,9 +76,10 @@ router.put('/', upload.array(), function (req, res){
                                      res.send(error);
                                  }
                              });
+                         }*/
                          }
-                     }
-                 });
+                     });
+    });
 });
 
 router.delete('/:e_id/auth/:id_token', function (req, res){
@@ -88,7 +90,7 @@ router.delete('/:e_id/auth/:id_token', function (req, res){
             console.log(error);
         } else {
             db.execQuery('SELECT delete_episode(episode_id := $1, auth := $2)',
-                         [req.params.episode_id, id],
+                         [req.params.e_id, id],
                          function(Qres, err) {
                              if (err) {
                                  res.send(err);
