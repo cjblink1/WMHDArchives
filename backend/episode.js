@@ -29,29 +29,29 @@ router.post('/', upload.array(), function (req, res){
     var podcastFile = req.files.podcastFile;
 */
     authenticate.exchangeTokenForID(req.body.id_token, function (error, id) {
-    db.execQuery('SELECT create_episode(podcast := $1, description := $2, length := $3, title := $4, date_published := $5, auth := $6)',
-                 [req.body.podcast, req.body.description, req.body.length, req.body.title, req.body.date_published, id],
-                 function(Qres, err) {
-                     if (err) {
-                         res.send(err);
-                     } else {
-                         console.log('Created podcast');
-                         res.send(Qres);
-/*
-                         podcastFile.mv('/podcasts/'+req.body.podcast+'/'+Qres.rows[0].create_episode+'.mp4/', function (error) {
-                             if (error) {
-                                 console.log(error);
-                                 res.send(error);
-                                 // Undo previous insertion if file is not properly moved
-                                 db.execQuery('SELECT delete_episode(e_id := $1, auth := $2)', [Qres.rows[0].create_episode, req.body.auth], function (Qres, err) {
-                                     if (err) {
-                                         res.send(err);
-                                     }
-                                 });
-                                 return;*/
-                     }
-                     console.log('File uploaded and stored');
-                 });
+        db.execQuery('SELECT create_episode(podcast := $1, description := $2, length := $3, title := $4, date_published := $5, auth := $6)',
+                     [req.body.podcast, req.body.description, req.body.length, req.body.title, req.body.date_published, id],
+                     function(Qres, err) {
+                         if (err) {
+                             res.send(err);
+                         } else {
+                             console.log('Created podcast');
+                             res.send(Qres);
+                             /*
+                               podcastFile.mv('/podcasts/'+req.body.podcast+'/'+Qres.rows[0].create_episode+'.mp4/', function (error) {
+                               if (error) {
+                               console.log(error);
+                               res.send(error);
+                               // Undo previous insertion if file is not properly moved
+                               db.execQuery('SELECT delete_episode(e_id := $1, auth := $2)', [Qres.rows[0].create_episode, req.body.auth], function (Qres, err) {
+                               if (err) {
+                               res.send(err);
+                               }
+                               });
+                               return;*/
+                         }
+                         console.log('File uploaded and stored');
+                     });
     });
 });
 //                 });
@@ -80,21 +80,25 @@ router.put('/', upload.array(), function (req, res){
                  });
 });
 
-router.delete('/', upload.array(), function (req, res){
-    var inStr = util.format('Episode delete request, SELECT delete_podcast(episode_id := %d, auth := \'%s\')',
-                            req.body.id, req.body.auth);
-    console.log(inStr);
+router.delete('/:e_id/auth/:id_token', function (req, res){
 
-    db.execQuery('SELECT delete_episode(episode_id := $1, auth := $2)',
-                 [req.body.episode_id, req.body.auth],
-                 function(Qres, err) {
-                     if (err) {
-                         res.send(err);
-                     } else {
-                         console.log('Deleted episode');
-                         res.send(Qres);
-                     }
-                 });
+    authenticate.exchangeTokenForID(req.params.id_token, function (error, id) {
+        if (error) {
+            res.send(error);
+            console.log(error);
+        } else {
+            db.execQuery('SELECT delete_episode(episode_id := $1, auth := $2)',
+                         [req.params.episode_id, id],
+                         function(Qres, err) {
+                             if (err) {
+                                 res.send(err);
+                             } else {
+                                 console.log('Deleted episode');
+                                 res.send(Qres);
+                             }
+                         });
+        }
+    });
 });
 
 router.get('/p_id/:p_id/auth/:id_token', function(req, res){
