@@ -28,8 +28,9 @@ router.post('/', upload.array(), function (req, res){
     }
     var podcastFile = req.files.podcastFile;
 */
+    authenticate.exchangeTokenForID(req.body.id_token, function (error, id) {
     db.execQuery('SELECT create_episode(podcast := $1, description := $2, length := $3, title := $4, date_published := $5, auth := $6)',
-                 [req.body.podcast, req.body.description, req.body.length, req.body.title, req.body.date_published, req.body.auth],
+                 [req.body.podcast, req.body.description, req.body.length, req.body.title, req.body.date_published, id],
                  function(Qres, err) {
                      if (err) {
                          res.send(err);
@@ -51,6 +52,7 @@ router.post('/', upload.array(), function (req, res){
                      }
                      console.log('File uploaded and stored');
                  });
+    });
 });
 //                 });
 //});
