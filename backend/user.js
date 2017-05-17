@@ -307,4 +307,19 @@ router.post('/creators/contributor', upload.array(), function(req, res) {
     });
 });
 
+router.put('/set/creator', upload.array(), function(req, res) {
+    authenticate.exchangeTokenForID(req.body.id_token, function (error, id) {
+        db.execQuery('SELECT set_creator_status(u_id := $1, is_creator := $2, auth := $3)',
+                     [req.body.u_id, req.body.is_creator, id],
+                     function (Qres,err) {
+                         if (err) {
+                             res.send(err);
+                             console.log(err);
+                         } else {
+                             res.send(Qres);
+                         }
+                     });
+    });
+});
+
 module.exports = router;
