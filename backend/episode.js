@@ -132,10 +132,21 @@ router.get('/p_id/:p_id/auth/:id_token', function(req, res){
                  });
         });
     }
+});
 
-    
-
-    
+router.get('/auth/:id_token', function (req, res) {
+    authenticate.exchangeTokenForID(req.params.id_token, function(error, id) {
+        db.execQuery('SELECT * FROM get_creators_episodes(auth := $1)',
+                     [id],
+                     function(Qres, err) {
+                         if (err) {
+                             res.send(err);
+                             console.log(err);
+                         } else {
+                             res.send(Qres);
+                         }
+                     });
+    });
 });
 
 module.exports = router;
