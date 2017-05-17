@@ -14,7 +14,7 @@ export class AuthService {
 
   private userChangedSource: Subject<User>;
   userChanged$: Observable<User>;
-  user: User;
+  user: User = null;
 
   constructor(private http: Http, private googleAuth: GoogleAuthService) { 
     this.userChangedSource = new Subject<User>();
@@ -23,8 +23,16 @@ export class AuthService {
     console.log("AuthService created.");
   }
 
-  public getUser(): Promise<User> {
-    return new Promise(resolve => resolve(this.user));
+  public getUser = callback => {
+    if (this.user) {
+      callback(this.user);
+    } else {
+      this.userChanged$.subscribe(user => callback(user));
+    }
+  }
+
+  public getUserState = callback => {
+    callback(this.user);
   }
 
   private onSignIn = googleUser => {

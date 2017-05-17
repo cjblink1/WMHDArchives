@@ -44,12 +44,41 @@ export class UserService {
   public setAdminStatus(u_id: number, status: boolean, callback) {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    this.authService.getUser().then(user => {
+    this.authService.getUser(user => {
       console.log(`Setting user ${u_id} to be admin: ${status}, token: ${user.id_token}`);
       this.http.post(Constants.BASE_URL+"/user/set-admin", 
       JSON.stringify({'id_token': user.id_token, 'u_id': u_id, 'admin': status}), options)
         .map(this.extractData)
         .catch(this.handleError).subscribe(result => callback());
+    });
+  }
+
+  public getNonContributors(p_id: number, callback) {
+    this.authService.getUser(user =>{
+      this.http.get(Constants.BASE_URL+'/user/creators/non-contributors/podcast/'+
+                      p_id +'/auth/'+ user.id_token)
+                      .map(this.extractData)
+                      .catch(this.handleError)
+                      .subscribe(result => callback(result));
+    });
+  }
+
+  public getAllContributors(p_id: number, callback) {
+    this.http.get(Constants.BASE_URL+"/user/creators/contributors/podcast/"+p_id)
+          .map(this.extractData)
+          .catch(this.handleError)
+          .subscribe(result => callback(result));
+  }
+
+  public addContributor(p_id: number, c_id:number, callback) {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    this.authService.getUser(user => {
+      this.http.post(Constants.BASE_URL+"/user/creators/contributor",
+      JSON.stringify({'id_token': user.id_token, 'p_id': p_id, 'c_id': c_id}), options)
+        .map(this.extractData)
+        .catch(this.handleError)
+        .subscribe(result => callback(result));
     });
   }
 

@@ -39,8 +39,8 @@ export class PodcastService {
   }
 
   public deletePodcast(p_id: number, callback) {
-    this.authService.getUser().then(user => {
-       this.http.delete(Constants.BASE_URL+"/podcast/p_id/"
+    this.authService.getUser(user => {
+      this.http.delete(Constants.BASE_URL+"/podcast/p_id/"
                       +p_id+"/auth/"+user.id_token)
                       .map(this.extractData)
                       .catch(this.handleError)
@@ -51,7 +51,7 @@ export class PodcastService {
    public createPodcast(name: string, description: string, callback) {
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
-      this.authService.getUser().then(user =>{
+      this.authService.getUser(user =>{
         this.http.post(Constants.BASE_URL+"/podcast/",
         JSON.stringify({'name': name, 'description': description, 'id_token': user.id_token}), 
         options).subscribe(result => callback());
@@ -62,7 +62,7 @@ export class PodcastService {
      console.log(p_id);
      let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
-      this.authService.getUser().then(user => {
+      this.authService.getUser(user => {
         this.http.put(Constants.BASE_URL+"/podcast/",
         JSON.stringify({'p_id': p_id, 'name': name, 'description': description, 'id_token': user.id_token}), 
         options).subscribe(result => callback());
@@ -71,7 +71,7 @@ export class PodcastService {
 
   public getPodcastsOfUser(callback) {
     this.userService.getUser(userResult => userResult.subscribe(users => {
-      this.authService.getUser().then(user => {
+      this.authService.getUser(user => {
         this.http.get(Constants.BASE_URL+"/podcast/creator/"+users[0].user_id
                     +"/auth/"+user.id_token)
               .map(this.extractData)

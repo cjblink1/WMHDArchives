@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 
 import { Episode } from '../../models/episode';
 
 import { PodcastService } from '../../services/podcast.service';
 import { EpisodeService } from '../../services/episode.service';
+import { UserService } from '../../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router'; 
 
 @Component({
@@ -17,11 +18,15 @@ export class PodcastManageDetailComponent implements OnInit {
   private name: string;
   private description: string;
   private episodes: Episode[];
+  private nonContributors = [];
+  private contributors: any[];
 
   constructor(private podcastService: PodcastService,
               private episodeService: EpisodeService,
+              private userService: UserService,
               private route: ActivatedRoute,
-              private router: Router) {}
+              private router: Router,
+              private zone: NgZone) {}
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -32,10 +37,19 @@ export class PodcastManageDetailComponent implements OnInit {
                                 this.name = podcast.name;
                                 this.description = podcast.description;
                             }, error => console.log(error));
-      // Request episodes
-      this.episodeService.getEpisodesOfPodcast(this.podcast_id)
-                            .subscribe(episodes => this.episodes = episodes,
-                                error => console.log(error));
+      
+
+      this.userService.getNonContributors(this.podcast_id, result => {
+        this.zone.run(() => {
+          this.nonContributors = result.rows;
+        });
+      });
+
+      this.userService.getAllContributors(this.podcast_id, result => {
+        this.zone.run(() => {
+          this.contributors = result.rows;
+        });
+      });
     });
   }
 
@@ -45,4 +59,23 @@ export class PodcastManageDetailComponent implements OnInit {
     });
   }
 
+  private addContributor(c_id: number) {
+    this.userService.addContributor(this.podcast_id, c_id, result => {
+      this.updateContributors();
+    });
+  }
+
+  private updateContributors() {
+    this.userService.getAllContributors(this.podcast_id, result => {
+      this.zone.run(() => {
+        this.contributors = result.rows;
+      });
+    });
+
+    this.userService.getNonContributors(this.podcast_id, result => {
+      this.zone.run(() => {
+        this.nonContributors = result.rows;
+      });
+    });
+  }
 }

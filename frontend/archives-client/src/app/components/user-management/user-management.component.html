@@ -10,7 +10,7 @@
   <tbody>
     <tr *ngFor="let user of users">
       <td>{{user.firstname}} {{user.lastname}}</td>
-      <td>{{user.is_admin ? 'Admin' : 'Listener'}}</td>
+      <td>{{user.is_admin ? 'Admin': ''}} {{user.is_creator ? 'Creator': ''}}</td>
       <td><button class="btn btn-danger" *ngIf="user.is_admin" (click)="setAdminStatus(user, false)">Demote</button>
           <button class="btn btn-success" *ngIf="!user.is_admin" (click)="setAdminStatus(user, true)">Promote</button></td>
     </tr>

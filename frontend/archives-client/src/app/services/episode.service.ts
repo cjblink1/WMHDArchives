@@ -8,16 +8,25 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
+import { AuthService } from './auth.service';
+
 @Injectable()
 export class EpisodeService {
 
-  constructor(public http: Http) { }
+  constructor(private http: Http,
+              private authService: AuthService) { }
 
-  public getEpisodesOfPodcast(id: number): Observable<Episode[]> {
-    return this.http.get(Constants.BASE_URL+'/episode/p_id/'+id)
+  public getEpisodesOfPodcast(id: number, callback) {
+    this.authService.getUserState(user =>{
+      var auth = null;
+      if (user) {
+        auth = user.id_token;
+      }
+      this.http.get(Constants.BASE_URL+'/episode/p_id/'+id+"/auth/"+auth)
           .map(this.extractData)
-          .catch(this.handleError);
-
+          .catch(this.handleError)
+          .subscribe(result => callback(result));
+    });
   }
 
   private extractData(res: Response) {

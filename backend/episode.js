@@ -5,6 +5,7 @@ var db = require('./database');
 var multer = require('multer');
 var upload = multer(); // for parsing multipart/form-data
 var fileUpload = require('express-fileupload');
+var authenticate = require('./authenticate');
 
 router.get('/', function (req, res){
     console.log('About to execute query');
@@ -95,21 +96,37 @@ router.delete('/', upload.array(), function (req, res){
                  });
 });
 
-router.get('/p_id/:id', function(req, res){
-    var inStr = util.format('Episode request, SELECT get_episodes_of_podcast(p_id := %d)',
-                            req.params.id);
-    console.log(inStr);
+router.get('/p_id/:p_id/auth/:id_token', function(req, res){
+    var p_id = req.params.p_id;
+    var id_token = req.params.id_token;
 
-    db.execQuery('SELECT * FROM get_episodes_of_podcast(p_id := $1)',
-                 [req.params.id],
+    if (id_token === null) {
+        db.execQuery('SELECT * FROM get_episodes_of_podcast(p_id := $1, auth := null)',
+                 [p_id],
                  function(Qres, err) {
                      if (err) {
                          res.send(err);
                      } else {
-                         console.log('Got podcast', req.params.id);
-                         res.send(JSON.stringify(Qres.rows));
+                         console.log('Got episodes of podcast', p_id);
+                         res.send(Qres);
                      }
                  });
+    } else {
+        authenticate.exchangeTokenForID(id_token, function(error, id) {
+            db.execQuery('SELECT * FROM get_episodes_of_podcast(p_id := $1, auth := $2)',
+                 [p_id, id],
+                 function(Qres, err) {
+                     if (err) {
+                         res.send(err);
+                     } else {
+                         console.log('Got episodes of podcast', p_id);
+                         res.send(Qres);
+                     }
+                 });
+        });
+    }
+
+    
 
     
 });

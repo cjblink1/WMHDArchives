@@ -30,9 +30,10 @@ export class PodcastDetailComponent implements OnInit {
                             .subscribe(podcast => this.podcast_name = podcast.name, 
                                   error => console.log(error));
       // Request episodes
-      this.episodeService.getEpisodesOfPodcast(this.podcast_id)
-                            .subscribe(episodes => this.episodes = episodes,
-                                error => console.log(error));
+      this.episodeService.getEpisodesOfPodcast(this.podcast_id, result => {
+        this.episodes = result.rows;
+      })
+                            
     });
 
     

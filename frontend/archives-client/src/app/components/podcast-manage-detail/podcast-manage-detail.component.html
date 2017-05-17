@@ -1,5 +1,5 @@
+<button class="btn btn-primary mt-2" (click)="save()">Save Changes</button>
 <div class="col-lg-8 my-2">
-  <button class="btn btn-primary" (click)="save()">Save Changes</button>
   <div class="form-group row mt-2">
       <label for="name" class="col-sm-3 col-form-label">Name</label>
       <div class="col-sm-9">
@@ -13,4 +13,24 @@
         <textarea rows="5" class="form-control" id="description" [(ngModel)]="description"></textarea>
       </div>
   </div>
+
+  <div [hidden]="nonContributors.length == 0" class="input-group mb-2">
+    <span class="input-group-btn">
+      <button class="btn btn-primary" (click)="addContributor(contrib.value)">Add Contributor</button>
+    </span>
+    <select class="custom-select" #contrib>
+      <option *ngFor="let nonContributor of nonContributors" [value]="nonContributor.user_id">{{nonContributor.firstname}} {{nonContributor.lastname}}</option>
+    </select>
+  </div>
+
+  <table class="table">
+    <thead>
+      <th>Contributors</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let contributor of contributors">
+        <td>{{contributor.firstname}} {{contributor.lastname}}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>

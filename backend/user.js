@@ -268,4 +268,41 @@ router.get('/creators/contributors/podcast/:p_id', function (req, res) {
     });
 });
 
+
+router.get('/creators/non-contributors/podcast/:p_id/auth/:id_token', function (req, res) {
+
+    var id_token = req.params.id_token;
+    var p_id = req.params.p_id;
+
+    authenticate.exchangeTokenForID(id_token, function(error, id) {
+        db.execQuery('SELECT * FROM get_non_contributors_on_podcast(p_id := $1, auth := $2)',
+         [p_id, id], function (Qres, err) {
+            if (err) {
+                res.send(err);
+            } else {
+                console.log('Got all non-contributors');
+                res.send(Qres);
+            }
+        });
+    });
+});
+
+router.post('/creators/contributor', upload.array(), function(req, res) {
+    var id_token = req.body.id_token;
+    var c_id = req.body.c_id;
+    var p_id = req.body.p_id;
+
+    authenticate.exchangeTokenForID(id_token, function(error, id) {
+        db.execQuery('SELECT add_contributor(auth := $1, p_id := $2, c_id := $3)', 
+            [id, p_id, c_id], function(Qres, err){
+                console.log('Adding contributor');
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send(Qres);
+                }
+            });
+    });
+});
+
 module.exports = router;
