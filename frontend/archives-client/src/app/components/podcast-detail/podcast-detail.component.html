@@ -12,6 +12,8 @@
       <th>
           Date Published
       </th>
+      <!--<th>
+      </th>-->
     </thead>
     <tbody>
       <tr *ngFor="let episode of episodes">
@@ -24,6 +26,10 @@
         <td>
           {{episode.date_published}}
         </td>
+        <!--<td>
+          <button [hidden]="episode.is_liked && signed_in" class="btn btn-success" (click)="like(episode)">Like</button>
+          <button [hidden]="!episode.is_liked" class="btn btn-warning" (click)="unlike(episode)">Unike</button>
+        </td>-->
       </tr>
     </tbody>
   </table>

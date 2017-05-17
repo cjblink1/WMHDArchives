@@ -47,17 +47,22 @@ export class EpisodeService {
     return Observable.throw(errMsg);
   }
 
-  public createNewEpisode(): Observable<any> {
-
+  public createNewEpisode(title:string, description: string, p_id: number, callback) {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    return this.http.post(Constants.BASE_URL+"/episode", {
-        podcast: 4,
-        title: 'Connor\'s new podcast',
-        description: 'new podcast description',
+    this.authService.getUser(user => {
+      this.http.post(Constants.BASE_URL+"/episode", JSON.stringify({
+        podcast: p_id,
+        title: title,
+        description: description,
         length: '1:00:00',
-        date_published: '5-5-2017',
-      }, options);
+        date_published: '5-17-2017',
+        id_token: user.id_token
+      }), options)
+        .map(this.extractData)
+        .catch(this.handleError)
+        .subscribe(result => callback(result));
+    });
   }
 
   
