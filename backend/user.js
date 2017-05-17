@@ -71,6 +71,7 @@ router.post('/set-admin/', upload.array(), function(req, res) {
     });
 });
 
+/*
 router.get('/listeners/', function (req, res){
     console.log('About to execute query');
     db.execQuery('SELECT * FROM get_listeners()', [], function(Qres, err){
@@ -82,11 +83,12 @@ router.get('/listeners/', function (req, res){
         }
     });
 });
+*/
 
 router.post('/login/', upload.array(), function (req, res){
-    console.log(req.body)
+    console.log(req.body);
     var id_token = req.body.id_token;
-    console.log("Logging in user")
+    console.log("Logging in user");
     authenticate.getUserInfoFromID(id_token, function(error, info) {
         console.log(info);
         if (error) {

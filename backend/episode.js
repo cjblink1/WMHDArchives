@@ -21,14 +21,14 @@ router.get('/', function (req, res){
 });
 
 router.post('/', upload.array(), function (req, res){
-
+/*
     if(!req.files){
         console.log('No file attached');
         res.send('No file attached');
         return;
     }
     var podcastFile = req.files.podcastFile;
-
+*/
     db.execQuery('SELECT create_episode(podcast := $1, description := $2, length := $3, title := $4, date_published := $5, auth := $6)',
                  [req.body.podcast, req.body.description, req.body.length, req.body.title, req.body.date_published, req.body.auth],
                  function(Qres, err) {
@@ -37,7 +37,7 @@ router.post('/', upload.array(), function (req, res){
                      } else {
                          console.log('Created podcast');
                          res.send(Qres);
-
+/*
                          podcastFile.mv('/podcasts/'+req.body.podcast+'/'+Qres.rows[0].create_episode+'.mp4/', function (error) {
                              if (error) {
                                  console.log(error);
@@ -48,13 +48,13 @@ router.post('/', upload.array(), function (req, res){
                                          res.send(err);
                                      }
                                  });
-                                 return;
-                             }
-                             console.log('File uploaded and stored');
-                         });
+                                 return;*/
                      }
+                     console.log('File uploaded and stored');
                  });
 });
+//                 });
+//});
 
 router.put('/', upload.array(), function (req, res){
 
