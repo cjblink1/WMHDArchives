@@ -20,7 +20,6 @@ export class UserManagementComponent implements OnInit {
     this.userService.getUsers(observable => {
       observable.subscribe(users => {
         this.zone.run(() => {
-          console.log(users);
           this.users = users;
         }); 
       });
@@ -28,12 +27,10 @@ export class UserManagementComponent implements OnInit {
   }
 
   private setAdminStatus(user, status: boolean) {
-    console.log("Click");
     this.userService.setAdminStatus(user.user_id, status, () => {
       this.userService.getUsers(observable => {
         observable.subscribe(users => {
           this.zone.run(() => {
-            console.log(users);
             this.users = users;
           }); 
         });

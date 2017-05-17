@@ -1,3 +1,32 @@
-<p>
-  episode-creation works!
-</p>
+<h2>My Episodes</h2>
+<table class="table">
+    <thead>
+      <th>
+          Title
+      </th>
+      <th>
+          Description
+      </th>
+      <th>
+          Date Published
+      </th>
+      <th>
+      </th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let episode of episodes">
+        <td>
+          {{episode.title}}
+        </td>
+        <td>
+          {{episode.description}}
+        </td>
+        <td>
+          {{episode.date_published}}
+        </td>
+        <td>
+          <button class="btn btn-danger" (click)="removeEpisode(episode)">Remove</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>

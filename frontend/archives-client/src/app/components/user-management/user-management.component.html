@@ -6,13 +6,18 @@
     <th>Name</th>
     <th>Role</th>
     <th></th>
+    <th></th>
   </thead>
   <tbody>
     <tr *ngFor="let user of users">
       <td>{{user.firstname}} {{user.lastname}}</td>
       <td>{{user.is_admin ? 'Admin': ''}} {{user.is_creator ? 'Creator': ''}}</td>
-      <td><button class="btn btn-danger" *ngIf="user.is_admin" (click)="setAdminStatus(user, false)">Demote</button>
-          <button class="btn btn-success" *ngIf="!user.is_admin" (click)="setAdminStatus(user, true)">Promote</button></td>
+      <td><button class="btn btn-danger" *ngIf="user.is_admin" (click)="setAdminStatus(user, false)">Demote from Admin</button>
+          <button class="btn btn-success" *ngIf="!user.is_admin" (click)="setAdminStatus(user, true)">Promote to Admin</button></td>
+      <td>
+          <button class="btn btn-danger" *ngIf="user.is_creator && !user.is_admin">Demote from Creator</button>
+          <button class="btn btn-success" *ngIf="!user.is_creator && !user.is_admin">Promote to Creator</button>
+      </td>
     </tr>
   </tbody>
 </table>

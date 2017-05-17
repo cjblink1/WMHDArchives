@@ -13,6 +13,8 @@
       <th>
           Date Published
       </th>
+      <th>
+      </th>
     </thead>
     <tbody>
       <tr *ngFor="let episode of episodes">
@@ -24,6 +26,9 @@
         </td>
         <td>
           {{episode.date_published}}
+        </td>
+        <td>
+          <button class="btn btn-danger" (click)="removeEpisode(episode)">Remove</button>
         </td>
       </tr>
     </tbody>

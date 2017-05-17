@@ -64,6 +64,24 @@ export class EpisodeService {
         .subscribe(result => callback(result));
     });
   }
+  
+  public deleteEpisode(e_id: number, callback) {
+    this.authService.getUser(user => {
+      this.http.delete(Constants.BASE_URL+"/episode/"+e_id+"/auth/"+user.id_token)
+          .map(this.extractData)
+          .catch(this.handleError)
+          .subscribe(result => callback(result));
+    });
+  }
+
+  public getEpisodesOfUser(callback) {
+    this.authService.getUser(user => {
+      this.http.get(Constants.BASE_URL+"/episode/auth/"+user.id_token)
+        .map(this.extractData)
+        .catch(this.handleError)
+        .subscribe(result => callback(result));
+    });
+  }
 
   
   public getStaticEpisodes() :Episode[] {

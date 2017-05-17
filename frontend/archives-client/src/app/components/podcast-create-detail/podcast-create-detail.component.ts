@@ -27,15 +27,23 @@ export class PodcastCreateDetailComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.podcast_id = params['id'];
       // Request podcast info
-      this.podcastService.getPodcast(this.podcast_id)
-                            .subscribe(podcast => {
-                                this.name = podcast.name;
-                                this.description = podcast.description;
-                            }, error => console.log(error));
+      this.podcastService.getPodcast(this.podcast_id, result => {
+        this.name = result.name;
+        this.description = result.description;
+      });
+                  
       // Request episodes
       this.episodeService.getEpisodesOfPodcast(this.podcast_id, result => {
         this.episodes = result.rows;
       });
+    });
+  }
+
+  private removeEpisode(episode) {
+    this.episodeService.deleteEpisode(episode.e_id, result => {
+      this.episodeService.getEpisodesOfPodcast(this.podcast_id, episodesResult => {
+        this.episodes = episodesResult.rows;
+      })
     });
   }
 

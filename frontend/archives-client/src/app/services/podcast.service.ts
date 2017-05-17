@@ -25,10 +25,11 @@ export class PodcastService {
           .catch(this.handleError);
   }
 
-  public getPodcast(id: number): Observable<Podcast> {
-    return this.http.get(Constants.BASE_URL+'/podcast/'+id)
+  public getPodcast(id: number, callback) {
+    this.http.get(Constants.BASE_URL+'/podcast/'+id)
            .map(this.extractData)
-           .catch(this.handleError);
+           .catch(this.handleError)
+           .subscribe(result => callback(result));
   }
 
   public searchPodcast(searchString: string): Observable<any> {

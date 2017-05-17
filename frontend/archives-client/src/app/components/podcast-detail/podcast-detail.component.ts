@@ -30,9 +30,10 @@ export class PodcastDetailComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.podcast_id = params['id'];
       // Request podcast info
-      this.podcastService.getPodcast(this.podcast_id)
-                            .subscribe(podcast => this.podcast_name = podcast.name, 
-                                  error => console.log(error));
+      this.podcastService.getPodcast(this.podcast_id, result => {
+        this.podcast_name = result.name;
+      });
+                            
       // Request episodes
       this.episodeService.getEpisodesOfPodcast(this.podcast_id, result => {
         this.episodes = result.rows;
