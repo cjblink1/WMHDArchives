@@ -130,9 +130,10 @@ export class UserService {
     });
   }
 
-  public searchUsers(term: string, callback) {
+  public searchUsers(searchString: string, callback) {
+    var terms = searchString.replace(/ /g, "&");
     this.authService.getUser(user => {
-      this.http.get(Constants.BASE_URL+"/user/search/"+term+"/auth/"+user.id_token)
+      this.http.get(Constants.BASE_URL+"/user/search/"+terms+"/auth/"+user.id_token)
         .map(this.extractData)
         .catch(this.handleError)
         .subscribe(result => callback(result));

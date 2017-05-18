@@ -251,7 +251,7 @@ router.post('/unlike/', upload.array(), function(req, res) {
 
 router.get('/search/:term/auth/:id_token', function (req, res){
     var id_token = req.params.id_token;
-    var term = req.params.terms;
+    var term = req.params.term;
 
     authenticate.exchangeTokenForID(id_token, function(error, id){
         if (error) {
