@@ -63,6 +63,12 @@ export class PodcastManageDetailComponent implements OnInit {
     });
   }
 
+  private removeContributor(c_id: number) {
+    this.userService.removeContributor(this.podcast_id, c_id, result => {
+      this.updateContributors();
+    })
+  }
+
   private updateContributors() {
     this.userService.getAllContributors(this.podcast_id, result => {
       this.zone.run(() => {

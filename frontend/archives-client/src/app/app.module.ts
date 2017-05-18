@@ -35,7 +35,6 @@ const appRoutes: Routes = [
     children: [
       { path: 'users', component: UserManagementComponent },
       { path: 'podcasts', component: PodcastManagementComponent },
-      { path: 'episodes', component: EpisodeManagementComponent },
       { path: 'add-podcast', component: AddPodcastComponent },
       { path: 'podcast/:id', component: PodcastManageDetailComponent }
     ]

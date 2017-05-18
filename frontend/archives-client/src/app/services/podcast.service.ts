@@ -55,7 +55,7 @@ export class PodcastService {
       this.authService.getUser(user =>{
         this.http.post(Constants.BASE_URL+"/podcast/",
         JSON.stringify({'name': name, 'description': description, 'id_token': user.id_token}), 
-        options).subscribe(result => callback());
+        options).subscribe(result => callback(result));
       });
    }
 

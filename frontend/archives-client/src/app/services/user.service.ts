@@ -94,6 +94,18 @@ export class UserService {
     });
   }
 
+  public removeContributor(p_id: number, c_id: number, callback) {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    this.authService.getUser(user => {
+      this.http.put(Constants.BASE_URL+"/user/creators/remove-contributor",
+      JSON.stringify({'id_token': user.id_token, 'p_id': p_id, 'u_id': c_id}), options)
+        .map(this.extractData)
+        .catch(this.handleError)
+        .subscribe(result => callback(result));
+    });
+  }
+
   public like(e_id: number, callback) {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });

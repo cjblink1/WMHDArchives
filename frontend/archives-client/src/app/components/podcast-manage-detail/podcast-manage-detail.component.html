@@ -26,10 +26,14 @@
   <table class="table">
     <thead>
       <th>Contributors</th>
+      <th></th>
     </thead>
     <tbody>
       <tr *ngFor="let contributor of contributors">
         <td>{{contributor.firstname}} {{contributor.lastname}}</td>
+        <td>
+          <button class="btn btn-danger" (click)="removeContributor(contributor.user_id)">Remove</button>
+        </td>
       </tr>
     </tbody>
   </table>

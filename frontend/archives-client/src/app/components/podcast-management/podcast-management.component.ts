@@ -15,7 +15,9 @@ export class PodcastManagementComponent implements OnInit {
 
   ngOnInit() {
     this.podcastService.getAllPodcasts()
-                            .subscribe(podcasts => this.podcasts = podcasts);
+                            .subscribe(podcasts => {
+                              this.podcasts = podcasts;
+                            });
   }
 
   private searchChange(event) {
