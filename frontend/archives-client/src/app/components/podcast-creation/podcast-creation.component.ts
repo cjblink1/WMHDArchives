@@ -16,8 +16,10 @@ export class PodcastCreationComponent implements OnInit {
   constructor(private podcastService: PodcastService, private zone: NgZone) { }
 
   ngOnInit() {
-    this.podcastService.getPodcastsOfUser(result => {
-      this.zone.run(() => this.podcasts = result.rows);
+    this.podcastService.getMyPodcasts(result => {
+      this.zone.run(() => {
+        this.podcasts = result.rows;
+      });
     });
   }
 }

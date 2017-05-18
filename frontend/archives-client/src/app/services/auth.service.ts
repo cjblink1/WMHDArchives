@@ -36,7 +36,6 @@ export class AuthService {
   }
 
   private onSignIn = googleUser => {
-    console.log("User signedIn", this);
     this.loginUser(googleUser.getAuthResponse().id_token);
     this.user = this.parseUser(googleUser);
     this.userChangedSource.next(this.user);

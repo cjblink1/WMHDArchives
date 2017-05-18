@@ -56,7 +56,6 @@ export class PodcastDetailComponent implements OnInit {
           });
         } else {
           this.zone.run(() => {
-            console.log("Hi");
             this.signed_in = true;  
             this.episodeService.getEpisodesOfPodcast(this.podcast_id, result => {
               this.episodes = result.rows;

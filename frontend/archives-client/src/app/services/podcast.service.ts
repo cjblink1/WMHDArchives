@@ -82,6 +82,15 @@ export class PodcastService {
     }));
   }
 
+  public getMyPodcasts(callback) {
+    this.authService.getUser(user => {
+      this.http.get(Constants.BASE_URL+"/podcast/creator/auth/"+user.id_token)
+        .map(this.extractData)
+        .catch(this.handleError)
+        .subscribe(result => callback(result));
+    })
+  }
+
   private extractData(res: Response) {
     let body = res.json();
     return body || {};
