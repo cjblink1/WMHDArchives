@@ -332,7 +332,7 @@ router.post('/set-creator', upload.array(), function(req, res) {
     });
 });
 
-router.put('/remove-contributor',upload.array(), function(req, res) {
+router.put('/creators/remove-contributor',upload.array(), function(req, res) {
     authenticate.exchangeTokenForID(req.body.id_token, function (error, id) {
         db.execQuery('SELECT remove_contributor(u_id := $1, p_id := $2, auth := $3)', [req.body.u_id, req.body.p_id, id],
                      function (Qres, err) {
