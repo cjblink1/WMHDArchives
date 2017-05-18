@@ -20,7 +20,6 @@ export class AddPodcastComponent implements OnInit {
 
   private submit() {
     this.podcastService.createPodcast(this.name, this.description, result =>{
-      console.log(result);
       this.router.navigate(['/manage/podcasts']);
     });
   }

@@ -130,6 +130,15 @@ export class UserService {
     });
   }
 
+  public searchUsers(term: string, callback) {
+    this.authService.getUser(user => {
+      this.http.get(Constants.BASE_URL+"/user/search/"+term+"/auth/"+user.id_token)
+        .map(this.extractData)
+        .catch(this.handleError)
+        .subscribe(result => callback(result));
+    });
+  }
+
   private getUsersHttpRequest(id_token: string): Observable<any[]> {
     return this.http.get(Constants.BASE_URL+"/user/all/auth/"+id_token)
                 .map(this.extractData)

@@ -49,4 +49,22 @@ export class UserManagementComponent implements OnInit {
       })
     });
   }
+
+  private searchChange(event) {
+    if (event.srcElement.value === "") {
+      this.userService.getUsers(observable => {
+        observable.subscribe(users => {
+          this.zone.run(() => {
+            this.users = users;
+          })
+        });
+      });
+    } else {
+      this.userService.searchUsers(event.srcElement.value, result => {
+        this.zone.run(() => {
+          this.users = result.rows;
+        });
+      }); 
+    }
+  }
 }

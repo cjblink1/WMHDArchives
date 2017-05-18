@@ -249,19 +249,21 @@ router.post('/unlike/', upload.array(), function(req, res) {
     });
 });
 
-router.get('/search/:term/auth/:id', function (req, res){
-    var id_token = req.params.id;
+router.get('/search/:term/auth/:id_token', function (req, res){
+    var id_token = req.params.id_token;
+    var term = req.params.terms;
 
     authenticate.exchangeTokenForID(id_token, function(error, id){
         if (error) {
             console.log(error);
             res.json(error);
         } else {
-            db.execQuery('SELECT * FROM search_users(term := $1, auth := $2)', [req.params.term, id], function (Qres, err) {
+            db.execQuery('SELECT * FROM search_users(term := $1, auth := $2)', 
+            [term, id], function (Qres, err) {
                 if (err) {
                     res.send(err);
                 } else {
-                    console.log('Searched creators');
+                    console.log('Searched users');
                     res.send(Qres);
                 }
             });
