@@ -4,6 +4,7 @@ var auth = new GoogleAuth();
 var client = new auth.OAuth2(CLIENT_ID, '', '');
 
 exports.exchangeTokenForID = function (id_token, callback) {
+    console.log(callback);
     client.verifyIdToken(id_token,
                          CLIENT_ID, 
                          function (error, login) {

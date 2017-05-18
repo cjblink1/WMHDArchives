@@ -83,6 +83,15 @@ export class EpisodeService {
     });
   }
 
+  public getRecommendedEpisodes(callback) {
+    this.authService.getUser(user => {
+      this.http.get(Constants.BASE_URL+"/episode/recommend/auth/"+user.id_token)
+          .map(this.extractData)
+          .catch(this.handleError)
+          .subscribe(result => callback(result));
+    });
+  }
+
   
   public getStaticEpisodes() :Episode[] {
     return [new Episode(1, "Yo dude", "1:00:00", "Sup", "2-2-2000", 4, 7),

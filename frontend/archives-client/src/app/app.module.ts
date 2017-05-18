@@ -25,6 +25,7 @@ import { PodcastCreationComponent } from './components/podcast-creation/podcast-
 import { PodcastCreateDetailComponent } from './components/podcast-create-detail/podcast-create-detail.component';
 import { EpisodeCreationComponent } from './components/episode-creation/episode-creation.component';
 import { AddEpisodeComponent } from './components/add-episode/add-episode.component';
+import { RecommendationsComponent } from './components/recommendations/recommendations.component';
 
 const appRoutes: Routes = [
   { path: '', component: PodcastDeckComponent },
@@ -48,6 +49,9 @@ const appRoutes: Routes = [
      { path: 'podcast/:id', component: PodcastCreateDetailComponent },
      { path: 'add-episode/podcast/:p_id', component: AddEpisodeComponent }
    ]
+ },
+ { 
+   path: 'recommend', component: RecommendationsComponent
  }
 ]
 
@@ -68,7 +72,8 @@ const appRoutes: Routes = [
     PodcastCreationComponent,
     PodcastCreateDetailComponent,
     EpisodeCreationComponent,
-    AddEpisodeComponent
+    AddEpisodeComponent,
+    RecommendationsComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

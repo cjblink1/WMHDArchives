@@ -149,4 +149,20 @@ router.get('/auth/:id_token', function (req, res) {
     });
 });
 
+router.get('/recommend/auth/:id_token', function(req, res) {
+    var id_token = req.params.id_token;
+    authenticate.exchangeTokenForID(id_token, function(error, id) {
+        db.execQuery('SELECT * FROM reccomend(auth := $1)',
+                     [id],
+                     function(Qres, err) {
+                         if (err) {
+                             res.send(err);
+                             console.log(err);
+                         } else {
+                             res.send(Qres);
+                         }
+                     });
+    });
+});
+
 module.exports = router;

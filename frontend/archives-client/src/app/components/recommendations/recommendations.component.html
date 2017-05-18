@@ -1,0 +1,27 @@
+<h2>Recommended Episodes</h2>
+<table class="table">
+    <thead>
+      <th>
+          Title
+      </th>
+      <th>
+          Description
+      </th>
+      <th>
+          Date Published
+      </th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let episode of episodes">
+        <td>
+          {{episode.title}}
+        </td>
+        <td>
+          {{episode.description}}
+        </td>
+        <td>
+          {{episode.date_published}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
