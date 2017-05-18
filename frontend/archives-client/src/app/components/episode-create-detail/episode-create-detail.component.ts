@@ -29,7 +29,6 @@ export class EpisodeCreateDetailComponent implements OnInit {
   private removeChapter(chap_id: number) {
     this.chapterService.deleteChapter(chap_id, result => {
       this.chapterService.getChaptersOfEpisode(this.episode_id, result => {
-        console.log(result);
         this.chapters = result.rows;
       });
     });
