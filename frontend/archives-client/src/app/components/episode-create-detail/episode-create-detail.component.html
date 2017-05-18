@@ -1,0 +1,17 @@
+<button class="btn btn-primary my-2" [routerLink]="['/create/add-chapter/episode', episode_id]">New Chapter</button>
+<table class="table">
+  <thead>
+    <th>Title</th>
+    <th>Starts at</th>
+    <th></th>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let chapter of chapters">
+      <td>{{chapter.title}}</td>
+      <td>{{chapter.time}}</td>
+      <td>
+        <button class="btn btn-danger" (click)="removeChapter(chapter.c_id)">Remove</button>
+      </td>
+  </tbody>
+</table>

@@ -23,7 +23,7 @@ app.use(allowCrossDomain);
 app.use('/api/podcast/',podcast);
 app.use('/api/episode/',episode);
 //app.use('/api/genre/',genre);
-//app.use('/api/chapter/', chapter);
+app.use('/api/chapter/', chapter);
 app.use('/api/user/',user);
 
 

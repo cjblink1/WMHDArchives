@@ -16,7 +16,7 @@
       </th>
     </thead>
     <tbody>
-      <tr *ngFor="let episode of episodes">
+      <tr *ngFor="let episode of episodes" [routerLink]="['/episode', episode.e_id]">
         <td>
           {{episode.title}}
         </td>

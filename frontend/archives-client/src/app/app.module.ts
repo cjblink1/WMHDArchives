@@ -10,6 +10,7 @@ import { AuthService } from './services/auth.service';
 import { GoogleAuthService } from './services/google-auth.service';
 import { PodcastService } from './services/podcast.service';
 import { EpisodeService } from './services/episode.service';
+import { ChapterService } from './services/chapter.service';
 import { UserService } from './services/user.service';
 import { PodcastDeckComponent } from './components/podcast-deck/podcast-deck.component';
 import { PodcastCardComponent } from './components/podcast-card/podcast-card.component';
@@ -26,10 +27,14 @@ import { PodcastCreateDetailComponent } from './components/podcast-create-detail
 import { EpisodeCreationComponent } from './components/episode-creation/episode-creation.component';
 import { AddEpisodeComponent } from './components/add-episode/add-episode.component';
 import { RecommendationsComponent } from './components/recommendations/recommendations.component';
+import { EpisodeDetailComponent } from './components/episode-detail/episode-detail.component';
+import { EpisodeCreateDetailComponent } from './components/episode-create-detail/episode-create-detail.component';
+import { AddChapterComponent } from './components/add-chapter/add-chapter.component';
 
 const appRoutes: Routes = [
   { path: '', component: PodcastDeckComponent },
   { path: 'podcast/:id', component: PodcastDetailComponent },
+  { path: 'episode/:id', component: EpisodeDetailComponent },
   { 
     path: 'manage', 
     component: ManagementViewComponent,
@@ -47,7 +52,9 @@ const appRoutes: Routes = [
      { path: 'podcasts', component: PodcastCreationComponent },
      { path: 'episodes', component: EpisodeCreationComponent },
      { path: 'podcast/:id', component: PodcastCreateDetailComponent },
-     { path: 'add-episode/podcast/:p_id', component: AddEpisodeComponent }
+     { path: 'add-episode/podcast/:p_id', component: AddEpisodeComponent },
+     { path: 'episode/:id', component: EpisodeCreateDetailComponent },
+     { path: 'add-chapter/episode/:e_id', component: AddChapterComponent}
    ]
  },
  { 
@@ -73,7 +80,10 @@ const appRoutes: Routes = [
     PodcastCreateDetailComponent,
     EpisodeCreationComponent,
     AddEpisodeComponent,
-    RecommendationsComponent
+    RecommendationsComponent,
+    EpisodeDetailComponent,
+    EpisodeCreateDetailComponent,
+    AddChapterComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -82,7 +92,7 @@ const appRoutes: Routes = [
     HttpModule,
     JsonpModule
   ],
-  providers: [AuthService, GoogleAuthService, PodcastService, EpisodeService, UserService],
+  providers: [AuthService, GoogleAuthService, PodcastService, EpisodeService, UserService, ChapterService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
