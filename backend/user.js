@@ -205,6 +205,7 @@ router.get('/listener/auth/:id', function (req, res) {
 
 router.post('/like/', upload.array(), function(req, res) {
     var id_token = req.body.id_token;
+    var e_id = req.body.e_id;
 
     authenticate.exchangeTokenForID(id_token, function(error, id){
         if (error) {
@@ -213,11 +214,12 @@ router.post('/like/', upload.array(), function(req, res) {
         } else {
             console.log("Got user id", id);
             console.log('About to execute query');
-            db.execQuery('SELECT * FROM like($1, $2)', [id, req.body.p_id], function(Qres, err){
+            db.execQuery('SELECT * FROM like(auth := $1, episode_id := $2)', 
+            [id, e_id], function(Qres, err){
                 if (err) {
                     res.send(err);
                 } else {
-                    res.send(JSON.stringify(Qres.rows));
+                    res.send(Qres);
                 }
             });
         }
@@ -226,6 +228,7 @@ router.post('/like/', upload.array(), function(req, res) {
 
 router.post('/unlike/', upload.array(), function(req, res) {
     var id_token = req.body.id_token;
+    var e_id = req.body.e_id;
 
     authenticate.exchangeTokenForID(id_token, function(error, id){
         if (error) {
@@ -234,11 +237,12 @@ router.post('/unlike/', upload.array(), function(req, res) {
         } else {
             console.log("Got user id", id);
             console.log('About to execute query');
-            db.execQuery('SELECT * FROM unlike($1, $2)', [id, req.body.p_id], function(Qres, err){
+            db.execQuery('SELECT * FROM unlike(auth := $1, ep_id := $2)', 
+            [id, e_id], function(Qres, err){
                 if (err) {
                     res.send(err);
                 } else {
-                    res.send(JSON.stringify(Qres.rows));
+                    res.send(Qres);
                 }
             });
         }
@@ -313,7 +317,7 @@ router.post('/creators/contributor', upload.array(), function(req, res) {
     });
 });
 
-router.put('/set/creator', upload.array(), function(req, res) {
+router.post('/set-creator', upload.array(), function(req, res) {
     authenticate.exchangeTokenForID(req.body.id_token, function (error, id) {
         db.execQuery('SELECT set_creator_status(u_id := $1, is_creator := $2, auth := $3)',
                      [req.body.u_id, req.body.is_creator, id],

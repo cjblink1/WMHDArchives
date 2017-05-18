@@ -90,5 +90,6 @@ export class AuthService {
 
   public signOut() {
     this.googleAuth.signOut();
+    this.user = null;
   }
 }

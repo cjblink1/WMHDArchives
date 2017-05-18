@@ -5,6 +5,7 @@ import { Podcast } from '../../models/podcast';
 import { Episode } from '../../models/episode';
 import { EpisodeService } from '../../services/episode.service';
 import { PodcastService } from '../../services/podcast.service';
+import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -23,6 +24,7 @@ export class PodcastDetailComponent implements OnInit {
               private router: Router,
               private episodeService: EpisodeService,
               private podcastService: PodcastService,
+              private userService: UserService,
               private authService: AuthService,
               private zone: NgZone) { }
 
@@ -35,38 +37,50 @@ export class PodcastDetailComponent implements OnInit {
       });
                             
       // Request episodes
-      this.episodeService.getEpisodesOfPodcast(this.podcast_id, result => {
-        this.episodes = result.rows;
-        console.log(result);
-      });
 
       this.authService.getUserState(user => {
-        console.log("user state", user);
-        if (user === null) {
+        if (user == null) {
           this.zone.run(() => {
             this.signed_in = false;
+            this.episodeService.getEpisodesOfPodcast(this.podcast_id, result => {
+              this.episodes = result.rows;
+            });
           });
           this.authService.getUser(loggedInUser => {
             this.zone.run(() => {
               this.signed_in = true;
+              this.episodeService.getEpisodesOfPodcast(this.podcast_id, result => {
+                this.episodes = result.rows;
+              });
             });
           });
         } else {
           this.zone.run(() => {
-            this.signed_in = true;
+            console.log("Hi");
+            this.signed_in = true;  
+            this.episodeService.getEpisodesOfPodcast(this.podcast_id, result => {
+              this.episodes = result.rows;
+            });
           });
         }
-      });
-                            
+      });          
     });
   }
 
   private like(episode) {
-    //this.episodeService.like();
+    this.userService.like(episode.e_id, result => {
+      this.episodeService.getEpisodesOfPodcast(this.podcast_id, result => {
+        this.episodes = result.rows;
+      });
+    });
   }
 
   private unlike(episode) {
-    //this.episodeService.unlike();
+    this.userService.unlike(episode.e_id, result => {
+      this.episodeService.getEpisodesOfPodcast(this.podcast_id, result => {
+        this.episodes = result.rows;
+      });
+    });
   }
 
 }

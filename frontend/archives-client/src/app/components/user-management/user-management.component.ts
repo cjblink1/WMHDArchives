@@ -27,7 +27,7 @@ export class UserManagementComponent implements OnInit {
   }
 
   private setAdminStatus(user, status: boolean) {
-    this.userService.setAdminStatus(user.user_id, status, () => {
+    this.userService.setAdminStatus(user.user_id, status, result => {
       this.userService.getUsers(observable => {
         observable.subscribe(users => {
           this.zone.run(() => {
@@ -38,4 +38,15 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
+  private setCreatorStatus(user, status: boolean) {
+    this.userService.setCreatorStatus(user.user_id, status, result => {
+      this.userService.getUsers(observable => {
+        observable.subscribe(users => {
+          this.zone.run(() => {
+            this.users = users;
+          })
+        })
+      })
+    });
+  }
 }

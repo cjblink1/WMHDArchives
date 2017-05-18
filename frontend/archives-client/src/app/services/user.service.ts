@@ -48,7 +48,20 @@ export class UserService {
       this.http.post(Constants.BASE_URL+"/user/set-admin", 
       JSON.stringify({'id_token': user.id_token, 'u_id': u_id, 'admin': status}), options)
         .map(this.extractData)
-        .catch(this.handleError).subscribe(result => callback());
+        .catch(this.handleError)
+        .subscribe(result => callback(result));
+    });
+  }
+
+  public setCreatorStatus(u_id: number, status: boolean, callback) {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    this.authService.getUser(user => {
+      this.http.post(Constants.BASE_URL+"/user/set-creator", 
+      JSON.stringify({'id_token': user.id_token, 'u_id': u_id, 'is_creator': status}), options)
+          .map(this.extractData)
+          .catch(this.handleError)
+          .subscribe(result => callback(result));
     });
   }
 
@@ -75,6 +88,30 @@ export class UserService {
     this.authService.getUser(user => {
       this.http.post(Constants.BASE_URL+"/user/creators/contributor",
       JSON.stringify({'id_token': user.id_token, 'p_id': p_id, 'c_id': c_id}), options)
+        .map(this.extractData)
+        .catch(this.handleError)
+        .subscribe(result => callback(result));
+    });
+  }
+
+  public like(e_id: number, callback) {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    this.authService.getUser(user => {
+      this.http.post(Constants.BASE_URL+"/user/like",
+      JSON.stringify({'id_token': user.id_token, 'e_id': e_id}), options)
+        .map(this.extractData)
+        .catch(this.handleError)
+        .subscribe(result => callback(result));
+    });
+  }
+
+  public unlike(e_id: number, callback) {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    this.authService.getUser(user => {
+      this.http.post(Constants.BASE_URL+"/user/unlike",
+      JSON.stringify({'id_token': user.id_token, 'e_id': e_id}), options)
         .map(this.extractData)
         .catch(this.handleError)
         .subscribe(result => callback(result));
